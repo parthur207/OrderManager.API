@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Infrastructure.Persistence
 {
-    public class DbContextInMemory : DbContext
+    public class DbContextOrderManager : DbContext
     {
-        public DbContextInMemory(DbContextOptions<DbContextInMemory> options) : base(options)
+        public DbContextOrderManager(DbContextOptions<DbContextOrderManager> options) : base(options)
         {
         }
 

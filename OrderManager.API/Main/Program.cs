@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OrderManager.Application.Interfaces.UseCasesInterface;
+using OrderManager.Application.UseCases;
 using OrderManager.Infrastructure.Auth.JWT;
 using OrderManager.Infrastructure.Persistence;
 using System.Text;
@@ -71,6 +73,8 @@ namespace OrderManager.API.Main
 
 
             builder.Services.AddScoped<IJwtInterface, JwtService>();
+
+            builder.Services.AddTransient<ICheckTimeOccurrenceOrderInterface, CheckTimeOccurrenceOrderService>(); : 
 
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
