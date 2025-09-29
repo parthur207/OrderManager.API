@@ -37,12 +37,11 @@ namespace OrderManager.Domain.Entities
         [Required]
         public string Password { get; private set; }
 
-        public string? Addres { get; private set; }
+        [Required]
+        public string Addres { get; private set; }
 
         public List<OrderEntity>? OrderList { get; private set; }
 
         public RoleEnum Role { get; private set; }
-
-
     }
 }
