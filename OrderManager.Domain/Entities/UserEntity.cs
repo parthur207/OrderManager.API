@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Numerics;
@@ -16,14 +17,30 @@ namespace OrderManager.Domain.Entities
             Email = email;
             Password = password;
         }
-        public UserEntity(string name, int? phone, string address)
+        public UserEntity(string name, string email, string password, string address)
         {
             Name = name;
-            Phone = phone;
-            Address = address;
-            CreatedAt = DateTime.Now;
+            Email = email;
+            Password = password;
+            Addres = address;
+            OrderList = [];
         }
 
-        public int Name { get; private set; }
+        [Required]
+        public string Name { get; private set; }
+
+        [Required]
+        public string Email { get; private set; }
+
+        [Required]
+        public string Password { get; private set; }
+
+        public string? Addres { get; private set; }
+
+        public List<OrderEntity>? OrderList { get; private set; }
+
+        public 
+
+
     }
 }
