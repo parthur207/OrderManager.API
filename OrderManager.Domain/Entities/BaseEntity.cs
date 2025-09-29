@@ -8,7 +8,6 @@ namespace OrderManager.Domain.Entities
 {
     public abstract class BaseEntity
     {
-
         public BaseEntity()
         {
             CreatedAt = DateTime.UtcNow;
