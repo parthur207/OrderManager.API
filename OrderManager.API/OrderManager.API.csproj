@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OrderManager.Application\OrderManager.Application.csproj" />
     <ProjectReference Include="..\OrderManager.Domain\OrderManager.Domain.csproj" />
     <ProjectReference Include="..\OrderManager.Infrastructure\OrderManager.Infrastructure.csproj" />
