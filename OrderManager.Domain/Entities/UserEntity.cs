@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrderManager.Domain.Enuns;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace OrderManager.Domain.Entities
             Password = password;
             Addres = address;
             OrderList = [];
+            Role= RoleEnum.Common;//O processo de cadastro ja atribuí o papel como comum por padrao
         }
 
         [Required]
@@ -39,7 +41,7 @@ namespace OrderManager.Domain.Entities
 
         public List<OrderEntity>? OrderList { get; private set; }
 
-        public 
+        public RoleEnum Role { get; private set; }
 
 
     }
