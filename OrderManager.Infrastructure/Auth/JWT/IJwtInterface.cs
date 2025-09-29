@@ -8,5 +8,6 @@ namespace OrderManager.Infrastructure.Auth.JWT
 {
     public interface IJwtInterface
     {
+        string GenerateToken(int UserId, string Role);
     }
 }

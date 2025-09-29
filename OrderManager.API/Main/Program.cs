@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OrderManager.Infrastructure.Auth.JWT;
 using OrderManager.Infrastructure.Persistence;
 using System.Text;
 
@@ -67,6 +68,11 @@ namespace OrderManager.API.Main
 
             builder.Services.AddDbContext<DbContextInMemory>(options =>
             options.UseInMemoryDatabase("DbContextInMemory")); //Utilização do Banco em memória
+
+
+            builder.Services.AddScoped<IJwtInterface, JwtService>();
+
+
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
