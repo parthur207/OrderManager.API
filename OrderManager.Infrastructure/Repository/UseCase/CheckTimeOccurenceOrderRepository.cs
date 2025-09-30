@@ -23,7 +23,7 @@ namespace OrderManager.Infrastructure.Repository.UseCase
             _dbContextOM = dbContextOM;
         }
 
-        public async Task<SimpleResponseModel> CheckTimeRepository(int orderNumber, ETypeOccurrenceEnum TypeOccurrence)
+        public async Task<SimpleResponseModel> CheckTimeRepository(int orderNumber, ETypeOccurrenceEnum typeOccurrence)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
 
@@ -37,10 +37,11 @@ namespace OrderManager.Infrastructure.Repository.UseCase
                     Response.Status = ResponseStatusEnum.NotFound;
                     return Response;
                 }
+                var TimeLastOccurrence= order.Occurrences.FirstOrDefault();
 
-                TimeSpan TimeRestant = DateTime.Now - order.UpdatedAt;
+                TimeSpan TimeDifference = DateTime.Now - TimeLastOccurrence.TimeOccurrence;
 
-                if (order.Occurrences.Any(x => x.TypeOccurrence.Equals(TypeOccurrence)) && TimeRestant.TotalMinutes >= 10)
+                if (order.Occurrences.Any(x => x.TypeOccurrence.Equals(typeOccurrence)) && TimeDifference.TotalMinutes >= 10)
                 {
                     Response.Status = ResponseStatusEnum.Success;
                     Response.Message = "Válido para inserir uma nova ocorrência da mesma tipagem.";
@@ -50,7 +51,7 @@ namespace OrderManager.Infrastructure.Repository.UseCase
             }
             catch (Exception ex)
             {
-                Response.Status = ResponseStatusEnum.Error;
+                Response.Status = ResponseStatusEnum.CriticalError;
                 Response.Message = "Erro ao verificar o tempo de ocorrência do pedido: " + ex.Message;
                 Debug.Assert(false, Response.Message);
             }
