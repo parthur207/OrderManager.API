@@ -19,9 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Admin\" />
     <Folder Include="Controllers\Pattern\" />
-    <Folder Include="Controllers\UserCommom\" />
   </ItemGroup>
 
 </Project>

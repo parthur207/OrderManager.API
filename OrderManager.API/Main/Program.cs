@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using OrderManager.Application.Interfaces.UseCasesInterface;
+using OrderManager.Application.Interfaces.IUseCase;
 using OrderManager.Application.UseCases;
 using OrderManager.Infrastructure.Auth.JWT;
 using OrderManager.Infrastructure.Persistence;

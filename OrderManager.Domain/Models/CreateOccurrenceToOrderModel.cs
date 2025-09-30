@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Domain.Models
 {
-    public class CreateOccurrenceModel
+    public class CreateOccurrenceToOrderModel
     {
 
         public int OrderNumber { get; set; }

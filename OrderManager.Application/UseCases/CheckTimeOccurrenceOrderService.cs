@@ -1,4 +1,4 @@
-﻿using OrderManager.Application.Interfaces.UseCasesInterface;
+﻿using OrderManager.Application.Interfaces.IUseCase;
 using OrderManager.Domain.Models.ReponsePattern;
 using System;
 using System.Collections.Generic;
