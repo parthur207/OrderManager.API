@@ -16,5 +16,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
         {
             _dbContextOM = dbContextOM;
         }
+
+
     }
 }

@@ -9,21 +9,37 @@ namespace OrderManager.Domain.Entities
 {
     public class OrderEntity : BaseEntity
     {
-        public OrderEntity() 
+        public OrderEntity()
         {
-            TimeOrder=DateTime.Now;
+            TimeOrder = DateTime.Now;
         }
-
         public int OrderNumber { get; private set; }
-        public List<OcccurrenceEntity> Occurrences { get; private set; }
+        public List<OccurrenceEntity> Occurrences { get; private set; }
+        public int RequesterId { get; private set; }
+        public UserEntity Requester { get; private set; } 
         public DateTime TimeOrder { get; private set; }
         public bool IndDelivered { get; private set; }
 
         //Métodos de domínio
-        public void SetStatusToDelivered()
+        public void SetOrderStatusToDelivered()
         {
             IndDelivered = true;
             UpdatedAt=DateTime.Now;
+        }
+
+        public void AddOccurrenceToOrder(OccurrenceEntity occurrence)
+        {
+            if (Occurrences is null)
+                Occurrences = new List<OccurrenceEntity>();
+
+            Occurrences.Add(occurrence);
+            UpdatedAt = DateTime.Now;
+        }
+
+        public void DeleteOccurrenceFromOrder(OccurrenceEntity occurrence)
+        {
+            Occurrences.Remove(occurrence);
+            UpdatedAt= DateTime.Now;
         }
     }
 }

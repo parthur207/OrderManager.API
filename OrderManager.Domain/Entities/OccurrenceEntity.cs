@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Domain.Entities
 {
-    public class OcccurrenceEntity : BaseEntity
+    public class OccurrenceEntity : BaseEntity
     {
-        public OcccurrenceEntity() 
+        public OccurrenceEntity() 
         {
             TimeOccurrence=DateTime.Now;
             IndFinishing = false;
@@ -18,6 +18,8 @@ namespace OrderManager.Domain.Entities
         public DateTime TimeOccurrence { get; private set; }
         public bool IndFinishing { get; private set; }
 
+        public int OrderId { get; private set; }//chave estangeira
+        public OrderEntity Order { get; private set; }
 
         public void SetOccurrenceToFinishing()//métdo de domínio
         {

@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Application.RepositoryInterface.Commands
 {
-    public interface IOrderCommandsRepository
+    public interface IOccurrenceOrderCommandsRepository
     {
-
-        Task<SimpleResponseModel> CreateOrder(OrderEntity Entity);
-        Task<SimpleResponseModel> UpdateStatusOrder(OrderEntity Entity);
-
+        Task<SimpleResponseModel> CreateOccurrenceToOrder(int orderNumber, OccurrenceEntity occurrenceEntity);
+        Task<SimpleResponseModel> DeleteOccurrenceOrder(int OrderNumber, int OccurrenceId);
     }
 }

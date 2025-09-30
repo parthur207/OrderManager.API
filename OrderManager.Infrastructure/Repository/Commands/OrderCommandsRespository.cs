@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using OrderManager.Application.Interfaces.IUseCase;
 using OrderManager.Application.RepositoryInterface.Commands;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enuns;
@@ -18,7 +20,6 @@ namespace OrderManager.Infrastructure.Repository.Commands
     {
 
         private readonly DbContextOrderManager _dbContextOM;
-
         public OrderCommandsRespository(DbContextOrderManager dbContextOM)
         {
             _dbContextOM=dbContextOM;
@@ -51,10 +52,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
             return Response;
         }
 
-        public Task<SimpleResponseModel> CreateOrderOccurrence(OrderEntity entity)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public Task<SimpleResponseModel> UpdateStatusOrder(OrderEntity Entity)
         {
