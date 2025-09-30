@@ -10,6 +10,7 @@ namespace OrderManager.Domain.Enuns
     {
         Success = 1,
         Error = 2,
-        NotFound = 3
+        NotFound = 3,
+        CriticalError=4
     }
 }

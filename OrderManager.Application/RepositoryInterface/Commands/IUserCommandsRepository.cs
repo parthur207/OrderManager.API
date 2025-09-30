@@ -11,8 +11,8 @@ namespace OrderManager.Application.RepositoryInterface.Commands
     public interface IUserCommandsRepository
     {
         Task<SimpleResponseModel> CreateUserRepository(UserEntity Entity);
-        Task<SimpleResponseModel> InactiveUserRepository(UserEntity Entity);
-        Task<SimpleResponseModel> ActiveUserRepository(UserEntity Entity);
-        Task<SimpleResponseModel> DeleteUserRepository(UserEntity Entity);
+        Task<SimpleResponseModel> InactiveUserRepository(string email);
+        Task<SimpleResponseModel> ActiveUserRepository(string email);
+        Task<SimpleResponseModel> DeleteUserRepository(string email);
     }
 }
