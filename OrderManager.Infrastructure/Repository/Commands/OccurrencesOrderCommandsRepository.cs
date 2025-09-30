@@ -87,7 +87,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
             return Response;
         }
 
-        public async Task<SimpleResponseModel> DeleteOccurrenceOrder(int orderNumber, int OccurrenceId)
+        public async Task<SimpleResponseModel> DeleteOccurrenceByOrderNumber(int orderNumber, int OccurrenceId)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
             try

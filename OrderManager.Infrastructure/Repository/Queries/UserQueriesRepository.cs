@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManager.Infrastructure.Repository.Commands
+namespace OrderManager.Infrastructure.Repository.Queries
 {
     public class UserQueriesRepository : IUserQueriesRepository
     {
@@ -59,8 +59,8 @@ namespace OrderManager.Infrastructure.Repository.Commands
             try
             {
                 var useByEmail = await _dbContextOM.UserEntity
-                    .Include(x=>x.OrderList)
-                    .FirstOrDefaultAsync(x=>x.Email==email);
+                    .Include(x => x.OrderList)
+                    .FirstOrDefaultAsync(x => x.Email == email);
 
                 if (useByEmail is null)
                 {
@@ -80,33 +80,33 @@ namespace OrderManager.Infrastructure.Repository.Commands
             }
             return Response;
         }
-    
+
 
         public async Task<ResponseModel<UserEntity>?> GetUserByOrderNumberRepository(int orderNumber)
         {
-            ResponseModel<UserEntity?> Response= new ResponseModel<UserEntity?>();
-            
+            ResponseModel<UserEntity?> Response = new ResponseModel<UserEntity?>();
+
             try
             {
-                var useByOrderNumber= await _dbContextOM.UserEntity
-                    .Include(x=>x.OrderList)
-                    .Where(x=>x.OrderList.Any(o=>o.OrderNumber==orderNumber))
+                var useByOrderNumber = await _dbContextOM.UserEntity
+                    .Include(x => x.OrderList)
+                    .Where(x => x.OrderList.Any(o => o.OrderNumber == orderNumber))
                     .FirstOrDefaultAsync();
 
                 if (useByOrderNumber is null)
                 {
                     Response.Message = $"Nenhum usuário encontrado para o número do pedido informado: {orderNumber}";
-                    Response.Status= ResponseStatusEnum.NotFound;
+                    Response.Status = ResponseStatusEnum.NotFound;
                     return Response;
                 }
 
-                Response.Content= useByOrderNumber;
-                Response.Status= ResponseStatusEnum.Success;
+                Response.Content = useByOrderNumber;
+                Response.Status = ResponseStatusEnum.Success;
             }
             catch (Exception ex)
             {
-                Response.Status= ResponseStatusEnum.CriticalError;
-                Response.Message= "Ocorreu um erro inesperado: " + ex.Message;
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
                 Debug.Assert(false, Response.Message);
             }
             return Response;

@@ -62,6 +62,5 @@ namespace OrderManager.Infrastructure.Persistence
             #endregion
         }
     }
-
-    }
 }
+
