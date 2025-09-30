@@ -10,12 +10,10 @@ namespace OrderManager.Domain.Entities
     {
         public BaseEntity()
         {
-            CreatedAt = DateTime.UtcNow;
             IsActive = true;
         }
         public int Id { get; private set; }
-        public DateTime CreatedAt { get; private set; }
-        public DateTime UpdatedAt { get; private set; }
+        public DateTime UpdatedAt { get; protected set; }
         public bool IsActive { get; private set; }
 
         public bool SetToInactive()
