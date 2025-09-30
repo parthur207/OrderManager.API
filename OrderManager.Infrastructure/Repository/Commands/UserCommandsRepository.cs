@@ -30,7 +30,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
             try
             {
                 var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email == email);
-                if(userEntity is null)
+                if (userEntity is null)
                 {
                     Response.Status = ResponseStatusEnum.NotFound;
                     Response.Message = "Nenhum usuário com o email informado foi encontrado.";
@@ -43,8 +43,8 @@ namespace OrderManager.Infrastructure.Repository.Commands
             }
             catch (Exception ex)
             {
-                Response.Status=ResponseStatusEnum.CriticalError;
-                Response.Message = "Ocorreu um erro inesperado: "+ex.Message;
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
             }
             return Response;
         }
@@ -55,15 +55,15 @@ namespace OrderManager.Infrastructure.Repository.Commands
 
             try
             {
-                if (await _dbContextOM.UserEntity.AnyAsync(x=>x.Email==Entity.Email))
+                if (await _dbContextOM.UserEntity.AnyAsync(x => x.Email == Entity.Email))
                 {
                     Response.Message = "Erro. Usuário já cadastrado.";
-                    Response.Status= ResponseStatusEnum.Error;
+                    Response.Status = ResponseStatusEnum.Error;
                     Debug.Assert(false, Response.Message);
                     return Response;
                 }
 
-                await _dbContextOM.AddAsync(Entity);;
+                await _dbContextOM.AddAsync(Entity); ;
                 await _dbContextOM.SaveChangesAsync();
 
                 Response.Status = ResponseStatusEnum.Success;
@@ -71,8 +71,8 @@ namespace OrderManager.Infrastructure.Repository.Commands
             }
             catch (Exception ex)
             {
-                Response.Status= ResponseStatusEnum.CriticalError;
-                Response.Message = "Ocorreu um erro inesperado: "+ex.Message;
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
                 Debug.Assert(false, Response.Message);
             }
 
@@ -92,7 +92,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
                     Debug.Assert(false, Response.Message);
                     return Response;
                 }
-                
+
                 _dbContextOM.UserEntity.Remove(userEntity);
                 await _dbContextOM.SaveChangesAsync();
             }
@@ -120,16 +120,16 @@ namespace OrderManager.Infrastructure.Repository.Commands
                     return Response;
                 }
 
-                var response=userEntity.SetToInactive();
+                var response = userEntity.SetToInactive();
                 if (response)
                 {
                     _dbContextOM.UserEntity.Update(userEntity);
                     await _dbContextOM.SaveChangesAsync();
-                    Response.Status=ResponseStatusEnum.Success;
+                    Response.Status = ResponseStatusEnum.Success;
                 }
                 else
                 {
-                    Response.Status= ResponseStatusEnum.Error;
+                    Response.Status = ResponseStatusEnum.Error;
                     Response.Message = "O usuário já se inativo.";
                 }
             }
@@ -141,6 +141,5 @@ namespace OrderManager.Infrastructure.Repository.Commands
             }
             return Response;
         }
-    }
     }
 }

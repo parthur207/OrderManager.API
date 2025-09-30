@@ -68,13 +68,13 @@ namespace OrderManager.API.Main
                 });
             });
 
-            builder.Services.AddDbContext<DbContextInMemory>(options =>
+            builder.Services.AddDbContext<DbContextOrderManager>(options =>
             options.UseInMemoryDatabase("DbContextInMemory")); //Utilização do Banco em memória
 
 
             builder.Services.AddScoped<IJwtInterface, JwtService>();
 
-            builder.Services.AddTransient<ICheckTimeOccurrenceOrderInterface, CheckTimeOccurrenceOrderService>(); : 
+            builder.Services.AddTransient<ICheckTimeOccurrenceOrderInterface, CheckTimeOccurrenceOrderService>();
 
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

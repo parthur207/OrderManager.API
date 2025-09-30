@@ -1,4 +1,5 @@
 ﻿using OrderManager.Application.Interfaces.IUseCase;
+using OrderManager.Application.RepositoryInterface.UseCase;
 using OrderManager.Domain.Models.ReponsePattern;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,12 @@ namespace OrderManager.Application.UseCases
     public class CheckTimeOccurrenceOrderService : ICheckTimeOccurrenceOrderInterface
     {
 
-        private read
+        private readonly ICheckTimeOccurrenceOrderRespository _checkTimeOccurrenceOrderRespository;
+
+        public CheckTimeOccurrenceOrderService(ICheckTimeOccurrenceOrderRespository checkTimeOccurrenceOrderRespository)
+        {
+            _checkTimeOccurrenceOrderRespository = checkTimeOccurrenceOrderRespository;
+        }
         public SimpleResponseModel CheckTime(int OrderNumber)
         {
             throw new NotImplementedException();

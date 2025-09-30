@@ -8,7 +8,5 @@ namespace OrderManager.Application.DTOs
 {
     internal class UserDTO
     {
-
-        public int I
     }
 }

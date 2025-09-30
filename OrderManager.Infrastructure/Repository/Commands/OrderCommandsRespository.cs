@@ -40,7 +40,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
                 await _dbContextOM.SaveChangesAsync();
 
                 Response.Status=ResponseStatusEnum.Success;
-                Response.Message = ^$"Pedido criado com sucesso!\nDetalhes: {Entity.OrderNumber} | {Entity.TimeOrder} | {}";
+                Response.Message = $"Pedido criado com sucesso!\nDetalhes: {Entity.OrderNumber} | {Entity.TimeOrder}";
             }
             catch(Exception ex)
             {

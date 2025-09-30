@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Application.DTOs
 {
-        public class UserDataTokenDTO
-        {
-            public int Id { get; set; }
-            public RoleEnum Role { get; set; }
-        }
+    public class UserDataTokenDTO
+    {
+        public int Id { get; set; }
+        public RoleEnum Role { get; set; }
     }
 }
+
