@@ -25,7 +25,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
             _dbContextOM=dbContextOM;
         }
 
-        public  async Task<SimpleResponseModel> CreateOrder(OrderEntity Entity)
+        public async Task<SimpleResponseModel> CreateOrder(OrderEntity Entity)
         {
             SimpleResponseModel Response=new SimpleResponseModel();
 
@@ -37,7 +37,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
                     Response.Status = ResponseStatusEnum.Error;
                     return Response;
                 }
-                await _dbContextOM.AddAsync(Entity);
+                await _dbContextOM.OrderEntity.AddAsync(Entity);
                 await _dbContextOM.SaveChangesAsync();
 
                 Response.Status=ResponseStatusEnum.Success;
@@ -53,7 +53,6 @@ namespace OrderManager.Infrastructure.Repository.Commands
         }
 
        
-
         public Task<SimpleResponseModel> UpdateStatusOrder(OrderEntity Entity)
         {
             throw new NotImplementedException();

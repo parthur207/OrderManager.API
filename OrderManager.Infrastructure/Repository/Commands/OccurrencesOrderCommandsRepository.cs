@@ -45,6 +45,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
                             Order.SetOrderStatusToDelivered();
 
                         occurrenceEntity.SetOccurrenceToFinishing();//Modificando o status da ocorrência para finalizada
+                        _dbContextOM.OrderEntity.Update(Order);
                         await _dbContextOM.AddAsync(occurrenceEntity);
                         await _dbContextOM.SaveChangesAsync();
 
@@ -62,7 +63,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
                         else
                         {
                             Order.AddOccurrenceToOrder(occurrenceEntity);
-                            await _dbContextOM.OcccurrenceEntity.AddAsync(occurrenceEntity);
+                            _dbContextOM.OrderEntity.Update(Order);
                             await _dbContextOM.SaveChangesAsync();
 
                             Response.Status = ResponseStatusEnum.Success;
@@ -118,6 +119,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
                 }
 
                 Order.DeleteOccurrenceFromOrder(Occurrence);
+                _dbContextOM.OrderEntity.Update(Order);
                 await _dbContextOM.SaveChangesAsync();
 
                 Response.Status = ResponseStatusEnum.Success;
