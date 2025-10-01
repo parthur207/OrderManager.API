@@ -65,7 +65,7 @@ namespace OrderManager.Application.Mappers
                     return Response;
                 }
                 
-                var orderDTO = new OrderDTO
+                var orderDTOConverted = new OrderDTO
                 (
                     OrderEntity.OrderNumber.Value, 
                     _occurrenceMapperInterface.MapToOccurrenceDTOList(OrderEntity.Occurrences).Content, 
@@ -76,7 +76,46 @@ namespace OrderManager.Application.Mappers
                     OrderEntity.TimeOrder
                 );
 
-                Response.Content = ;
+                Response.Content = orderDTOConverted;
+                Response.Status = ResponseStatusEnum.Success;
+            }
+            catch (Exception ex)
+            {
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
+                Debug.Assert(false, Response.Message);
+            }
+            return Response;
+        }
+
+       public ResponseModel<List<OrderDTO>>? OrderEntityListToDTOList(List<OrderEntity> OrderEntityList)
+        {
+            ResponseModel<List<OrderDTO>?> Response = new ResponseModel<List<OrderDTO>>();
+            try
+            {
+                if (OrderEntityList is null || !OrderEntityList.Any())
+                {
+                    Response.Message = "Lista de pedidos vazia.";
+                    Response.Status = ResponseStatusEnum.Error;
+                    return Response;
+                }
+
+                foreach (var item in OrderEntityList)
+                {
+                    var OrderDTOConverted= new OrderDTO
+                        (
+                            item.OrderNumber.Value,
+                            _occurrenceMapperInterface.MapToOccurrenceDTOList(item.Occurrences).Content,
+                            item.User.Name,
+                            item.User.Email.Value,
+                            item.User.Address,
+                            item.IndDelivered,
+                            item.TimeOrder
+                        );
+
+                    Response.Content.Add(OrderDTOConverted);
+                }
+
                 Response.Status = ResponseStatusEnum.Success;
             }
             catch (Exception ex)

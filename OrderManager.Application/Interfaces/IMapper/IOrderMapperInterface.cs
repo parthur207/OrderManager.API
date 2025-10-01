@@ -14,6 +14,7 @@ namespace OrderManager.Application.Mappers.MappersInterface
     {
         //Entity=>DTO
         ResponseModel<OrderDTO>? OrderEntityToDTO(OrderEntity OrderEntity);
+        ResponseModel<List<OrderDTO>>? OrderEntityListToDTOList(List<OrderEntity> OrderEntityList);
 
         //Model=>Entity
         ResponseModel<OrderEntity> OrderCreateModelToEntity(CreateOrderModel OrderModel, int userId);
