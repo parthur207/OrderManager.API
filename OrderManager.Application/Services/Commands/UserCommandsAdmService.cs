@@ -1,5 +1,4 @@
 ﻿using OrderManager.Application.Interfaces.IMapper;
-using OrderManager.Application.Interfaces.IServices.Adm;
 using OrderManager.Application.Mappers.MappersInterface;
 using OrderManager.Application.RepositoryInterface.Commands;
 using IUserMapperInterface = OrderManager.Application.Interfaces.IMapper.IUserMapperInterface;

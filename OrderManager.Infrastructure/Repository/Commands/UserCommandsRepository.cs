@@ -3,6 +3,7 @@ using OrderManager.Application.RepositoryInterface.Commands;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
+using OrderManager.Domain.ValueObjects;
 using OrderManager.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
@@ -24,12 +25,12 @@ namespace OrderManager.Infrastructure.Repository.Commands
             _dbContextOM = dbContextOM;
         }
 
-        public async Task<SimpleResponseModel> ActiveUserRepository(string email)
+        public async Task<SimpleResponseModel> ActiveUserRepository(UserEmailVO email)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
             try
             {
-                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email.Value == email);
+                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email.Value == email.Value);
                 if (userEntity is null)
                 {
                     Response.Status = ResponseStatusEnum.NotFound;
@@ -55,7 +56,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
 
             try
             {
-                if (await _dbContextOM.UserEntity.AnyAsync(x => x.Email == Entity.Email))
+                if (await _dbContextOM.UserEntity.AnyAsync(x => x.Email.Value == Entity.Email.Value))
                 {
                     Response.Message = "Erro. Usuário já cadastrado.";
                     Response.Status = ResponseStatusEnum.Error;
@@ -79,12 +80,12 @@ namespace OrderManager.Infrastructure.Repository.Commands
             return Response;
         }
 
-        public async Task<SimpleResponseModel> DeleteUserRepository(string email)
+        public async Task<SimpleResponseModel> DeleteUserRepository(UserEmailVO email)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
             try
             {
-                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email.Value == email);
+                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email.Value == email.Value);
                 if (userEntity is null)
                 {
                     Response.Status = ResponseStatusEnum.NotFound;
@@ -106,12 +107,12 @@ namespace OrderManager.Infrastructure.Repository.Commands
             return Response;
         }
 
-        public async Task<SimpleResponseModel> InactiveUserRepository(string email)
+        public async Task<SimpleResponseModel> InactiveUserRepository(UserEmailVO email)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
             try
             {
-                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email.Value == email);
+                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email.Value == email.Value);
                 if (userEntity is null)
                 {
                     Response.Status = ResponseStatusEnum.NotFound;
@@ -137,6 +138,51 @@ namespace OrderManager.Infrastructure.Repository.Commands
             {
                 Response.Status = ResponseStatusEnum.CriticalError;
                 Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
+                Debug.Assert(false, Response.Message);
+            }
+            return Response;
+        }
+
+        public async Task<SimpleResponseModel> PromoteUserToAdmRepository(UserEmailVO email)
+        {
+            SimpleResponseModel Response = new SimpleResponseModel();
+
+            try
+            {
+                var User = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email.Value==email.Value);
+                
+                if (User is null)
+                {
+                    Response.Status= ResponseStatusEnum.NotFound;
+                    Response.Message="Nenhum usuário com o email informado foi encontrado.";
+                    return Response;
+                }
+
+                if (User.Role.Equals(RoleEnum.Adm))
+                {
+                    Response.Message="O usuário já é um administrador.";
+                    Response.Status= ResponseStatusEnum.Error;
+                    return Response;
+                }
+
+                if (User.IsActive is false)
+                {
+                    Response.Message="O usuário informado está com o aceso inativo.";
+                    Response.Status = ResponseStatusEnum.Error;
+                    return Response;
+                }
+
+                User.PromoteToAdmin();
+                _dbContextOM.UserEntity.Update(User);
+                await _dbContextOM.SaveChangesAsync();
+
+                Response.Status= ResponseStatusEnum.Success;
+                Response.Message="O usuário foi promovido a administrador!";
+            }
+            catch (Exception ex)
+            {
+                Response.Status= ResponseStatusEnum.CriticalError;
+                Response.Message="Ocorreu um erro inesperado: " + ex.Message;
                 Debug.Assert(false, Response.Message);
             }
             return Response;

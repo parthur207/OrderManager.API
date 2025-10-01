@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Application.Interfaces.IServices.Adm
 {
-    internal interface IUserQueriesAdmInterface
+    public interface IUserQueriesAdmInterface
     {
     }
 }
