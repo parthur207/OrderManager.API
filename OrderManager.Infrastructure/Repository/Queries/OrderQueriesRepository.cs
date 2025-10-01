@@ -30,7 +30,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                var AllOrders= await _dbContextOM.OrderEntity
                     .Include(x=>x.Occurrences)
-                    .Include(x=>x.Requester)
+                    .Include(x=>x.User)
                     .ToListAsync();
 
                 if (AllOrders is null || !AllOrders.Any())
@@ -58,7 +58,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 var AllOrdersByTypeOccurrence = await _dbContextOM.OrderEntity
                      .Include(x => x.Occurrences)
-                     .Include(x => x.Requester)
+                     .Include(x => x.User)
                      .Where(x => x.Occurrences.Any(o => o.TypeOccurrence == occurrenceEnum))
                      .ToListAsync();
 
@@ -87,7 +87,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 var OrderById = await _dbContextOM.OrderEntity
                      .Include(x => x.Occurrences)
-                     .Include(x => x.Requester)
+                     .Include(x => x.User)
                      .FirstOrDefaultAsync(x => x.OrderNumber == OrderNumber);
 
                 if (OrderById is null)
@@ -116,8 +116,8 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 var AllOrdersByUserEmail = await _dbContextOM.OrderEntity
                      .Include(x => x.Occurrences)
-                     .Include(x => x.Requester)
-                     .Where(x=>x.Requester.Email== email)
+                     .Include(x => x.User)
+                     .Where(x=>x.User.Email== email)
                      .ToListAsync();
 
                 if (AllOrdersByUserEmail is null || !AllOrdersByUserEmail.Any())

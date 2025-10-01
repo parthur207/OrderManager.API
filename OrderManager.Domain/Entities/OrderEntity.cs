@@ -15,8 +15,8 @@ namespace OrderManager.Domain.Entities
         }
         public int OrderNumber { get; private set; }
         public List<OccurrenceEntity> Occurrences { get; private set; }
-        public int RequesterId { get; private set; }
-        public UserEntity Requester { get; private set; } 
+        public int UserId { get; private set; }
+        public UserEntity User { get; private set; } 
         public DateTime TimeOrder { get; private set; }
         public bool IndDelivered { get; private set; }
 

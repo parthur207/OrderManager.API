@@ -26,7 +26,7 @@ namespace OrderManager.Domain.Entities
             Name = name;
             Email = email;
             Password = password;
-            Addres = address;
+            Address = address;
             OrderList = [];
             Role= RoleEnum.Common;//O processo de cadastro ja atribuí o papel como 'comum' por padrao
         }
@@ -37,7 +37,7 @@ namespace OrderManager.Domain.Entities
 
         public string Password { get; private set; }
 
-        public string Addres { get; private set; }
+        public string Address { get; private set; }
 
         public List<OrderEntity>? OrderList { get; private set; }
 

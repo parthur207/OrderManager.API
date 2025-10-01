@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Application.Mappers
 {
-    public class OrderMapper: IOrderMapperInterface
+    public class OrderMapper : IOrderMapperInterface
     {
 
 

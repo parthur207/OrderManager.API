@@ -26,8 +26,8 @@ namespace OrderManager.Infrastructure.Persistence
             //1:n | User:Order
             modelBuilder.Entity<UserEntity>()
                 .HasMany(x => x.OrderList)
-                .WithOne(x => x.Requester)
-                .HasForeignKey(x => x.RequesterId)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //1:n | Order:Occurrences
@@ -45,7 +45,7 @@ namespace OrderManager.Infrastructure.Persistence
                 entity.Property(u => u.Name).IsRequired().HasMaxLength(150);
                 entity.Property(u => u.Email).IsRequired().HasMaxLength(150);
                 entity.Property(u => u.Password).IsRequired().HasMaxLength(200);
-                entity.Property(u => u.Addres).HasMaxLength(250);
+                entity.Property(u => u.Address).HasMaxLength(250);
             });
 
             modelBuilder.Entity<OrderEntity>(entity =>
