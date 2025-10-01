@@ -2,6 +2,7 @@
 using OrderManager.Application.RepositoryInterface.UseCase;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
+using OrderManager.Domain.ValueObjects;
 using OrderManager.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
@@ -23,17 +24,17 @@ namespace OrderManager.Infrastructure.Repository.UseCase
             _dbContextOM = dbContextOM;
         }
 
-        public async Task<SimpleResponseModel> CheckTimeRepository(int orderNumber, ETypeOccurrenceEnum typeOccurrence)
+        public async Task<SimpleResponseModel> CheckTimeRepository(OrderNumberVO orderNumber, ETypeOccurrenceEnum typeOccurrence)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
 
             try
             {
-                var order = await _dbContextOM.OrderEntity.FirstOrDefaultAsync(x => x.OrderNumber == orderNumber);
+                var order = await _dbContextOM.OrderEntity.FirstOrDefaultAsync(x => x.OrderNumber.Value == orderNumber.Value);
 
                 if (order is null)
                 {
-                    Response.Message = $"Não foi encontrado nenhum pedido com o número informado: {orderNumber}";
+                    Response.Message = $"Não foi encontrado nenhum pedido com o número informado: {orderNumber.Value}";
                     Response.Status = ResponseStatusEnum.NotFound;
                     return Response;
                 }

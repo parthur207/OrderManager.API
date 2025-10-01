@@ -24,7 +24,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             _dbContextOM = dbContextOM;
         }
 
-        public async Task<ResponseModel<List<OrderEntity>?>> GetAllOrders()
+        public async Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersRepository()
         {
             ResponseModel<List<OrderEntity>?> Response = new ResponseModel<List<OrderEntity>?>();
             try
@@ -52,7 +52,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             return Response;
         }
 
-        public async Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByTypeOccurrence(ETypeOccurrenceEnum occurrenceEnum)
+        public async Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByTypeOccurrenceRepository(ETypeOccurrenceEnum occurrenceEnum)
         {
             ResponseModel<List<OrderEntity>?> Response = new ResponseModel<List<OrderEntity>?>();
             try
@@ -81,7 +81,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             return Response;
         }
 
-        public async Task<ResponseModel<OrderEntity>?> GetOrderById(OrderNumberVO OrderNumber)
+        public async Task<ResponseModel<OrderEntity>?> GetOrderByNumberRepository(OrderNumberVO OrderNumber)
         {
             ResponseModel<OrderEntity>? Response = new ResponseModel<OrderEntity>();
             try
@@ -110,7 +110,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             return Response;
         }
 
-        public async Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByUserEmail(UserEmailVO email)//para usuario comum e adm
+        public async Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByUserEmailRepository(UserEmailVO email)//para usuario comum e adm
         {
             ResponseModel<List<OrderEntity>?> Response = new ResponseModel<List<OrderEntity>?>();
             try

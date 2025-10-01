@@ -12,9 +12,9 @@ namespace OrderManager.Application.RepositoryInterface.Queries
 {
     public interface IOrderQueriesRepository
     {
-        Task<ResponseModel<List<OrderEntity>?>> GetAllOrders();
-        Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByUserEmail(UserEmailVO email);
-        Task<ResponseModel<OrderEntity>?> GetOrderById(OrderNumberVO OrderNumber);
-        Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByTypeOccurrence(ETypeOccurrenceEnum occurrenceEnum);
+        Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersRepository();
+        Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByUserEmailRepository(UserEmailVO email);
+        Task<ResponseModel<OrderEntity>?> GetOrderByNumberRepository(OrderNumberVO OrderNumber);
+        Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByTypeOccurrenceRepository(ETypeOccurrenceEnum occurrenceEnum);
     }
 }

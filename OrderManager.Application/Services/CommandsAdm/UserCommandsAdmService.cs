@@ -1,7 +1,8 @@
-﻿using OrderManager.Application.Interfaces.IMapper;
+﻿using OrderManager.Application.Interfaces.IServices.ICommandsAdm;
 using OrderManager.Application.Mappers.MappersInterface;
 using OrderManager.Application.RepositoryInterface.Commands;
-using IUserMapperInterface = OrderManager.Application.Interfaces.IMapper.IUserMapperInterface;
+using OrderManager.Domain.Models.ReponsePattern;
+using OrderManager.Domain.ValueObjects;
 
 namespace OrderManager.Application.Services.Commands
 {
@@ -14,6 +15,26 @@ namespace OrderManager.Application.Services.Commands
         {
             _userCommandsRepository = userCommandsRepository;
             _userMapper = userMapper;
+        }
+
+        public Task<SimpleResponseModel> ActiveUser(UserEmailVO Email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SimpleResponseModel> DeleteUser(UserEmailVO Email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SimpleResponseModel> InactiveUser(UserEmailVO Email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SimpleResponseModel> PromoteUserToAdm(UserEmailVO Email)
+        {
+            throw new NotImplementedException();
         }
     }
 }
