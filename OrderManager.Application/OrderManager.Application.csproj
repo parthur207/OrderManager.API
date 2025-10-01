@@ -10,9 +10,4 @@
     <ProjectReference Include="..\OrderManager.Domain\OrderManager.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\CommandsUserGeneric\" />
-    <Folder Include="Services\QueriesAdm\" />
-  </ItemGroup>
-
 </Project>

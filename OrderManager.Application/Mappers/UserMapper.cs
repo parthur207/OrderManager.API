@@ -1,5 +1,4 @@
 ﻿using OrderManager.Application.DTOs;
-using OrderManager.Application.Interfaces.IMapper;
 using OrderManager.Application.Mappers.MappersInterface;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Models;
@@ -12,14 +11,19 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Application.Mappers
 {
-    public class UserMapper : IOrderMapperInterface
+    public class UserMapper : IUserMapperInterface
     {
-        public ResponseModel<OrderEntity> OrderCreateModelToEntity(CreateOrderModel OrderModel)
+        public ResponseModel<UserEntity>? UserCreateModelToEntity(CreateUserModel UserModel)
         {
             throw new NotImplementedException();
         }
 
-        public ResponseModel<OrderDTO>? OrderEntityToDTO(OrderEntity OrderEntity)
+        public ResponseModel<UserDTO>? UserEntityToDTO(UserEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ResponseModel<UserEntity>? UserLoginModelToEntity(UserLoginModel UserModel)
         {
             throw new NotImplementedException();
         }

@@ -16,11 +16,11 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Infrastructure.Repository.Commands
 {
-    public class OrderCommandsRespository : IOrderCommandsRepository
+    public class OrderCommandsRepository : IOrderCommandsRepository
     {
 
         private readonly DbContextOrderManager _dbContextOM;
-        public OrderCommandsRespository(DbContextOrderManager dbContextOM)
+        public OrderCommandsRepository(DbContextOrderManager dbContextOM)
         {
             _dbContextOM=dbContextOM;
         }

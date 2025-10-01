@@ -1,11 +1,32 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OrderManager.Application.Interfaces.IServices.Adm;
+using OrderManager.Application.Interfaces.IServices.ICommandsAdm;
+using OrderManager.Application.Interfaces.IServices.ICommandsGenericUser;
+using OrderManager.Application.Interfaces.IServices.ILoginInterface;
+using OrderManager.Application.Interfaces.IServices.IQueriesGenericUser;
 using OrderManager.Application.Interfaces.IUseCase;
+using OrderManager.Application.Mappers;
+using OrderManager.Application.Mappers.MappersInterface;
+using OrderManager.Application.RepositoryInterface.Commands;
+using OrderManager.Application.RepositoryInterface.Login;
+using OrderManager.Application.RepositoryInterface.Queries;
+using OrderManager.Application.Services.Commands;
+using OrderManager.Application.Services.CommandsAdm;
+using OrderManager.Application.Services.CommandsUserGeneric;
+using OrderManager.Application.Services.Login;
+using OrderManager.Application.Services.Queries;
+using OrderManager.Application.Services.QueriesAdm;
 using OrderManager.Application.UseCases;
+using OrderManager.Domain.Models;
 using OrderManager.Infrastructure.Auth.JWT;
 using OrderManager.Infrastructure.Persistence;
+using OrderManager.Infrastructure.Repository.Commands;
+using OrderManager.Infrastructure.Repository.Login;
+using OrderManager.Infrastructure.Repository.Queries;
 using System.Text;
 
 namespace OrderManager.API.Main
@@ -71,11 +92,41 @@ namespace OrderManager.API.Main
             builder.Services.AddDbContext<DbContextOrderManager>(options =>
             options.UseInMemoryDatabase("DbContextInMemory")); //Utilização do Banco em memória
 
+            #region Serviços - Injeções de dependencia (Tempo de vida)
+            
+            //Mappers
+            builder.Services.AddTransient<IOrderMapperInterface, OrderMapper>();
+            builder.Services.AddTransient<IUserMapperInterface, UserMapper>();
+            builder.Services.AddTransient<IUserMapperInterface, UserMapper>();
 
-            builder.Services.AddScoped<IJwtInterface, JwtService>();
+            //Services
+            builder.Services.AddScoped<IOccurrenceOrderCommandsAdmInterface, OccurrencesOrderAdmService>();
+            builder.Services.AddScoped<IUserCommadsAdmInterface, UserCommandsAdmService>();
+            builder.Services.AddScoped<IOrderCommandsUserGenericInterface, OrderCommandsUserGenericService>();
+            builder.Services.AddScoped<IUserCommandsUserGenericInterface, UserCommandsUserGenericService>();
+            builder.Services.AddScoped<ILoginInterface, LoginService>();
+            builder.Services.AddScoped<IOrderQueriesAdmInterface, OrderQueriesAdmService>();
+            builder.Services.AddScoped<IUserQueriesAdmInterface, UserQueriesAdmService>();
+            builder.Services.AddScoped<IOrderQueriesUserGenericInterface, OrderQueriesUserGenericService>();
 
+            //Service UseCase
             builder.Services.AddTransient<ICheckTimeOccurrenceOrderInterface, CheckTimeOccurrenceOrderService>();
 
+            //jwt
+            builder.Services.AddScoped<IJwtInterface, JwtService>();
+
+            //repository
+            builder.Services.AddScoped<IOccurrenceOrderCommandsRepository, OccurrencesOrderCommandsRepository>();
+            builder.Services.AddScoped<IOrderCommandsRepository, OrderCommandsRepository>();
+            builder.Services.AddScoped<IUserCommandsRepository, UserCommandsRepository>();
+            builder.Services.AddScoped<IUserLoginDataRepository, UserLoginDataRepository>();
+            builder.Services.AddScoped<IOrderQueriesRepository, OrderQueriesRepository>();
+            builder.Services.AddScoped<IUserQueriesRepository, UserQueriesRepository>();
+            builder.Services.AddScoped<IOrderQueriesRepository, OrderQueriesRepository>();
+
+            //UseCase repository
+            builder.Services.AddTransient<ICheckTimeOccurrenceOrderInterface, CheckTimeOccurrenceOrderService>();
+            #endregion
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
