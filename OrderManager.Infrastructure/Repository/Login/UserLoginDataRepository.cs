@@ -29,7 +29,7 @@ namespace OrderManager.Infrastructure.Repository.Login
             {
                 var UserExists = await _dbContextOM.UserEntity
                      .Where(x => x.IsActive == true)
-                     .FirstOrDefaultAsync(x => x.Email == userDatalogin.Email && x.Password==userDatalogin.Password);
+                     .FirstOrDefaultAsync(x => x.Email.Value == userDatalogin.Email.Value && x.Password.Value==userDatalogin.Password.Value);
 
                 if (UserExists is null)
                 {

@@ -3,6 +3,7 @@ using OrderManager.Application.RepositoryInterface.Queries;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
+using OrderManager.Domain.ValueObjects;
 using OrderManager.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             return Response;
         }
 
-        public async Task<ResponseModel<UserEntity>?> GetUserByEmailRepository(string email)
+        public async Task<ResponseModel<UserEntity>?> GetUserByEmailRepository(UserEmailVO email)
         {
             ResponseModel<UserEntity?> Response = new ResponseModel<UserEntity?>();
 
@@ -60,11 +61,11 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 var useByEmail = await _dbContextOM.UserEntity
                     .Include(x => x.OrderList)
-                    .FirstOrDefaultAsync(x => x.Email.Value == email);
+                    .FirstOrDefaultAsync(x => x.Email.Value == email.Value);
 
                 if (useByEmail is null)
                 {
-                    Response.Message = $"Nenhum usuário encontrado com o email informado: {email}";
+                    Response.Message = $"Nenhum usuário encontrado com o email informado: {email.Value}";
                     Response.Status = ResponseStatusEnum.NotFound;
                     return Response;
                 }
@@ -82,7 +83,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
         }
 
 
-        public async Task<ResponseModel<UserEntity>?> GetUserByOrderNumberRepository(int orderNumber)
+        public async Task<ResponseModel<UserEntity>?> GetUserByOrderNumberRepository(OrderNumberVO orderNumber)
         {
             ResponseModel<UserEntity?> Response = new ResponseModel<UserEntity?>();
 
@@ -90,12 +91,12 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 var useByOrderNumber = await _dbContextOM.UserEntity
                     .Include(x => x.OrderList)
-                    .Where(x => x.OrderList.Any(o => o.OrderNumber == orderNumber))
+                    .Where(x => x.OrderList.Any(x => x.OrderNumber.Value == orderNumber.Value))
                     .FirstOrDefaultAsync();
 
                 if (useByOrderNumber is null)
                 {
-                    Response.Message = $"Nenhum usuário encontrado para o número do pedido informado: {orderNumber}";
+                    Response.Message = $"Nenhum usuário encontrado para o número do pedido informado: {orderNumber.Value}";
                     Response.Status = ResponseStatusEnum.NotFound;
                     return Response;
                 }

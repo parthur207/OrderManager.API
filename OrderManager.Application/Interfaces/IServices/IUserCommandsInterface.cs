@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManager.Application.Interfaces.IMapper
+namespace OrderManager.Application.Interfaces.IServices
 {
-    internal interface IOccurrenceMapperInterface
+    internal interface IUserCommandsInterface
     {
     }
 }

@@ -1,4 +1,5 @@
 ﻿using OrderManager.Domain.Enuns;
+using OrderManager.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace OrderManager.Domain.Entities
         {
             TimeOrder = DateTime.Now;
         }
-        public int OrderNumber { get; private set; }
+        public OrderNumberVO OrderNumber { get; private set; }
         public List<OccurrenceEntity> Occurrences { get; private set; }
         public int UserId { get; private set; }
         public UserEntity User { get; private set; } 

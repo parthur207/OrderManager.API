@@ -4,6 +4,7 @@ using OrderManager.Application.RepositoryInterface.Queries;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
+using OrderManager.Domain.ValueObjects;
 using OrderManager.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
@@ -80,7 +81,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             return Response;
         }
 
-        public async Task<ResponseModel<OrderEntity>?> GetOrderById(int OrderNumber)
+        public async Task<ResponseModel<OrderEntity>?> GetOrderById(OrderNumberVO OrderNumber)
         {
             ResponseModel<OrderEntity>? Response = new ResponseModel<OrderEntity>();
             try
@@ -88,7 +89,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
                 var OrderById = await _dbContextOM.OrderEntity
                      .Include(x => x.Occurrences)
                      .Include(x => x.User)
-                     .FirstOrDefaultAsync(x => x.OrderNumber == OrderNumber);
+                     .FirstOrDefaultAsync(x => x.OrderNumber.Value == OrderNumber.Value);
 
                 if (OrderById is null)
                 {
@@ -109,7 +110,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             return Response;
         }
 
-        public async Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByUserEmail(string email)//para usuario comum e adm
+        public async Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByUserEmail(UserEmailVO email)//para usuario comum e adm
         {
             ResponseModel<List<OrderEntity>?> Response = new ResponseModel<List<OrderEntity>?>();
             try
@@ -117,7 +118,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
                 var AllOrdersByUserEmail = await _dbContextOM.OrderEntity
                      .Include(x => x.Occurrences)
                      .Include(x => x.User)
-                     .Where(x=>x.User.Email.Value== email)
+                     .Where(x=>x.User.Email.Value== email.Value)
                      .ToListAsync();
 
                 if (AllOrdersByUserEmail is null || !AllOrdersByUserEmail.Any())
