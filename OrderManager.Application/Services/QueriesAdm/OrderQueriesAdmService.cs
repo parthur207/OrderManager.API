@@ -1,4 +1,5 @@
-﻿using OrderManager.Application.DTOs.AdmDTOs;
+﻿using OrderManager.Application.DTOs;
+using OrderManager.Application.DTOs.AdmDTOs;
 using OrderManager.Application.Interfaces.IServices.Adm;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
@@ -13,22 +14,22 @@ namespace OrderManager.Application.Services.QueriesAdm
 {
     public class OrderQueriesAdmService : IOrderQueriesAdmInterface
     {
-        public Task<ResponseModel<List<OrderDTOadm>>?> GetAllOrders()
+        public Task<ResponseModel<List<OrderDTO>>?> GetAllOrders()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseModel<List<OrderDTOadm>>?> GetAllOrdersByTypeOccurrence(ETypeOccurrenceEnum occurrence)
+        public Task<ResponseModel<List<OrderDTO>>?> GetAllOrdersByTypeOccurrence(ETypeOccurrenceEnum occurrence)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseModel<List<OrderDTOadm>>?> GetAllOrdersByUserEmail(UserEmailVO Email)
+        public Task<ResponseModel<List<OrderDTO>>?> GetAllOrdersByUserEmail(UserEmailVO Email)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseModel<OrderDTOadm>?> GetOrderByNumber(OrderNumberVO orderNumber)
+        public Task<ResponseModel<OrderDTO>?> GetOrderByNumber(OrderNumberVO orderNumber)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,4 @@
-﻿using OrderManager.Application.DTOs;
+﻿using OrderManager.Application.DTOs.Adm;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Models;
 using OrderManager.Domain.Models.ReponsePattern;
@@ -13,7 +13,7 @@ namespace OrderManager.Application.Mappers.MappersInterface
     public interface IUserMapperInterface
     {
         //Entity=> DTO
-        ResponseModel<UserDTO>? UserEntityToDTO(UserEntity entity);
+        ResponseModel<UserAdmDTO>? UserEntityToDTO(UserEntity entity);
 
         //Model => Entity
         ResponseModel<UserEntity>? UserCreateModelToEntity(CreateUserModel UserModel);//Para cadastros

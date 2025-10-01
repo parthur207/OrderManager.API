@@ -29,7 +29,8 @@ namespace OrderManager.Domain.Entities
             Password = password;
             Address = address;
             OrderList = [];
-            Role= RoleEnum.Common;//O processo de cadastro ja atribuí o papel como 'comum' por padrao
+            CreatedAt=DateTime.Now;
+            Role = RoleEnum.Common;//O processo de cadastro ja atribuí o papel como 'comum' por padrao
         }
 
         public string Name { get; private set; }
@@ -41,6 +42,7 @@ namespace OrderManager.Domain.Entities
         public string Address { get; private set; }
 
         public List<OrderEntity>? OrderList { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         public RoleEnum Role { get; private set; }
 

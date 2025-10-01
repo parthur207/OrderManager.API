@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OrderManager.Application.Interfaces.IMapper;
 using OrderManager.Application.Interfaces.IServices.Adm;
 using OrderManager.Application.Interfaces.IServices.ICommandsAdm;
 using OrderManager.Application.Interfaces.IServices.ICommandsGenericUser;
@@ -97,7 +98,7 @@ namespace OrderManager.API.Main
             //Mappers
             builder.Services.AddTransient<IOrderMapperInterface, OrderMapper>();
             builder.Services.AddTransient<IUserMapperInterface, UserMapper>();
-            builder.Services.AddTransient<IUserMapperInterface, UserMapper>();
+            builder.Services.AddTransient<IOccurrenceMapperInterface, OccurrencesMapper>();
 
             //Services
             builder.Services.AddScoped<IOccurrenceOrderCommandsAdmInterface, OccurrencesOrderAdmService>();

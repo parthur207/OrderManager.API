@@ -15,7 +15,7 @@ namespace OrderManager.Application.Services.Queries
     {
         public Task<ResponseModel<List<OrderDTO>>?> GetOrdersByUserId(int userId)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

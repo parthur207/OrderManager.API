@@ -1,4 +1,4 @@
-﻿using OrderManager.Application.DTOs;
+﻿using OrderManager.Application.DTOs.Adm;
 using OrderManager.Application.Interfaces.IServices.Adm;
 using OrderManager.Domain.Models.ReponsePattern;
 using OrderManager.Domain.ValueObjects;
@@ -12,17 +12,17 @@ namespace OrderManager.Application.Services.QueriesAdm
 {
     public class UserQueriesAdmService : IUserQueriesAdmInterface
     {
-        public Task<ResponseModel<List<UserDTO>>?> GetAllUsers()
+        public Task<ResponseModel<List<UserAdmDTO>>?> GetAllUsers()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseModel<UserDTO>?> GetUserByEmail(UserEmailVO email)
+        public Task<ResponseModel<UserAdmDTO>?> GetUserByEmail(UserEmailVO email)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseModel<UserDTO>?> GetUserByOrderNumber(OrderNumberVO orderNumber)
+        public Task<ResponseModel<UserAdmDTO>?> GetUserByOrderNumber(OrderNumberVO orderNumber)
         {
             throw new NotImplementedException();
         }

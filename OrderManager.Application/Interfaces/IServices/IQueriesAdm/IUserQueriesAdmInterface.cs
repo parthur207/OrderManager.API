@@ -1,4 +1,4 @@
-﻿using OrderManager.Application.DTOs;
+﻿using OrderManager.Application.DTOs.Adm;
 using OrderManager.Domain.Models.ReponsePattern;
 using OrderManager.Domain.ValueObjects;
 using System;
@@ -11,8 +11,8 @@ namespace OrderManager.Application.Interfaces.IServices.Adm
 {
     public interface IUserQueriesAdmInterface
     {
-        Task<ResponseModel<List<UserDTO>>?> GetAllUsers();
-        Task<ResponseModel<UserDTO>?> GetUserByEmail(UserEmailVO email);
-        Task<ResponseModel<UserDTO>?> GetUserByOrderNumber(OrderNumberVO orderNumber);
+        Task<ResponseModel<List<UserAdmDTO>>?> GetAllUsers();
+        Task<ResponseModel<UserAdmDTO>?> GetUserByEmail(UserEmailVO email);
+        Task<ResponseModel<UserAdmDTO>?> GetUserByOrderNumber(OrderNumberVO orderNumber);
     }
 }

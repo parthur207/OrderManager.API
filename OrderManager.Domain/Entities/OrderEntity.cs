@@ -10,9 +10,13 @@ namespace OrderManager.Domain.Entities
 {
     public class OrderEntity : BaseEntity
     {
-        public OrderEntity()
+        public OrderEntity(OrderNumberVO orderNumber,int userId)
         {
+            OrderNumber = orderNumber;
+            UserId = userId;
+            Occurrences = [];
             TimeOrder = DateTime.Now;
+            IndDelivered = false;
         }
         public OrderNumberVO OrderNumber { get; private set; }
         public List<OccurrenceEntity> Occurrences { get; private set; }

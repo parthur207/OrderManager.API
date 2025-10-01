@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManager.Application.DTOs
+namespace OrderManager.Application.DTOs.Adm
 {
-    public class UserDTO
+    public class UserAdmDTO
     {
     }
 }

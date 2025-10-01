@@ -1,4 +1,4 @@
-﻿using OrderManager.Application.DTOs;
+﻿using OrderManager.Application.DTOs.Adm;
 using OrderManager.Application.Mappers.MappersInterface;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Models;
@@ -18,7 +18,7 @@ namespace OrderManager.Application.Mappers
             throw new NotImplementedException();
         }
 
-        public ResponseModel<UserDTO>? UserEntityToDTO(UserEntity entity)
+        public ResponseModel<UserAdmDTO>? UserEntityToDTO(UserEntity entity)
         {
             throw new NotImplementedException();
         }

@@ -3,6 +3,7 @@ using OrderManager.Application.RepositoryInterface.Commands;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
+using OrderManager.Domain.ValueObjects;
 using OrderManager.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
@@ -21,14 +22,14 @@ namespace OrderManager.Infrastructure.Repository.Commands
             _dbContextOM = dbContextOM;
         }
 
-        public async Task<SimpleResponseModel> CreateOccurrenceToOrder(int orderNumber, OccurrenceEntity occurrenceEntity)
+        public async Task<SimpleResponseModel> CreateOccurrenceToOrderRepository(OrderNumberVO orderNumber, OccurrenceEntity occurrenceEntity)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
 
             try
             {
                 var Order = await _dbContextOM.OrderEntity.Include(x => x.Occurrences)
-                    .FirstOrDefaultAsync(x => x.OrderNumber == orderNumber);
+                    .FirstOrDefaultAsync(x => x.OrderNumber.Value == orderNumber.Value);
 
                 if (Order is null)//verificando se o pedido com o numero informado existe
                 {
@@ -43,10 +44,11 @@ namespace OrderManager.Infrastructure.Repository.Commands
                     {
                         if (occurrenceEntity.TypeOccurrence.Equals(ETypeOccurrenceEnum.EntregueComSucesso))
                             Order.SetOrderStatusToDelivered();
-
+                        
                         occurrenceEntity.SetOccurrenceToFinishing();//Modificando o status da ocorrência para finalizada
                         _dbContextOM.OrderEntity.Update(Order);
-                        await _dbContextOM.AddAsync(occurrenceEntity);
+                        _dbContextOM.OccurrenceEntity.Update(occurrenceEntity);
+                        await _dbContextOM.OrderEntity.AddAsync(Order);
                         await _dbContextOM.SaveChangesAsync();
 
                         Response.Status = ResponseStatusEnum.Success;
@@ -87,17 +89,17 @@ namespace OrderManager.Infrastructure.Repository.Commands
             return Response;
         }
 
-        public async Task<SimpleResponseModel> DeleteOccurrenceByOrderNumber(int orderNumber, int OccurrenceId)
+        public async Task<SimpleResponseModel> DeleteOccurrenceByOrderNumberRepository(OrderNumberVO orderNumber, int OccurrenceId)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
             try
             {
                 var Order = await _dbContextOM.OrderEntity.Include(x => x.Occurrences)
-                    .FirstOrDefaultAsync(x => x.OrderNumber == orderNumber);
+                    .FirstOrDefaultAsync(x => x.OrderNumber.Value == orderNumber.Value);
 
                 if (Order is null)//verifica se o pedido existe
                 {
-                    Response.Message = "Não foi encontrado nenhum pedido com o número informado: " + orderNumber;
+                    Response.Message = "Não foi encontrado nenhum pedido com o número informado: " + orderNumber.Value;
                     Response.Status = ResponseStatusEnum.NotFound;
                     return Response;
                 }
