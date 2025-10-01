@@ -29,7 +29,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
             SimpleResponseModel Response = new SimpleResponseModel();
             try
             {
-                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email == email);
+                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email.Value == email);
                 if (userEntity is null)
                 {
                     Response.Status = ResponseStatusEnum.NotFound;
@@ -84,7 +84,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
             SimpleResponseModel Response = new SimpleResponseModel();
             try
             {
-                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email == email);
+                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email.Value == email);
                 if (userEntity is null)
                 {
                     Response.Status = ResponseStatusEnum.NotFound;
@@ -111,7 +111,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
             SimpleResponseModel Response = new SimpleResponseModel();
             try
             {
-                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email == email);
+                var userEntity = await _dbContextOM.UserEntity.FirstOrDefaultAsync(x => x.Email.Value == email);
                 if (userEntity is null)
                 {
                     Response.Status = ResponseStatusEnum.NotFound;

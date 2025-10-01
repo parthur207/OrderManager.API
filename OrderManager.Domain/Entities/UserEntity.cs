@@ -1,4 +1,5 @@
 ﻿using OrderManager.Domain.Enuns;
+using OrderManager.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,14 +15,14 @@ namespace OrderManager.Domain.Entities
     public class UserEntity : BaseEntity
     {
         //para logins
-        public UserEntity(string email, string password)
+        public UserEntity(UserEmailVO email, PasswordVO password)
         {
             Email = email;
             Password = password;
         }
 
         //para cadastros
-        public UserEntity(string name, string email, string password, string address)
+        public UserEntity(string name, UserEmailVO email, PasswordVO password, string address)
         {
             Name = name;
             Email = email;
@@ -33,14 +34,17 @@ namespace OrderManager.Domain.Entities
 
         public string Name { get; private set; }
 
-        public string Email { get; private set; }
+        public UserEmailVO Email { get; private set; }
 
-        public string Password { get; private set; }
+        public PasswordVO Password { get; private set; }
 
         public string Address { get; private set; }
 
         public List<OrderEntity>? OrderList { get; private set; }
 
         public RoleEnum Role { get; private set; }
+
+        public void PromoteToAdmin() => Role = RoleEnum.Adm;
+
     }
 }

@@ -60,7 +60,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 var useByEmail = await _dbContextOM.UserEntity
                     .Include(x => x.OrderList)
-                    .FirstOrDefaultAsync(x => x.Email == email);
+                    .FirstOrDefaultAsync(x => x.Email.Value == email);
 
                 if (useByEmail is null)
                 {

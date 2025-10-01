@@ -117,7 +117,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
                 var AllOrdersByUserEmail = await _dbContextOM.OrderEntity
                      .Include(x => x.Occurrences)
                      .Include(x => x.User)
-                     .Where(x=>x.User.Email== email)
+                     .Where(x=>x.User.Email.Value== email)
                      .ToListAsync();
 
                 if (AllOrdersByUserEmail is null || !AllOrdersByUserEmail.Any())
