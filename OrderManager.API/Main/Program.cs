@@ -14,6 +14,7 @@ using OrderManager.Application.Mappers;
 using OrderManager.Application.RepositoryInterface.Commands;
 using OrderManager.Application.RepositoryInterface.Login;
 using OrderManager.Application.RepositoryInterface.Queries;
+using OrderManager.Application.RepositoryInterface.UseCase;
 using OrderManager.Application.Services.CommandsAdm;
 using OrderManager.Application.Services.CommandsUserGeneric;
 using OrderManager.Application.Services.Login;
@@ -26,6 +27,7 @@ using OrderManager.Infrastructure.Persistence;
 using OrderManager.Infrastructure.Repository.Commands;
 using OrderManager.Infrastructure.Repository.Login;
 using OrderManager.Infrastructure.Repository.Queries;
+using OrderManager.Infrastructure.Repository.UseCase;
 using System.Text;
 
 namespace OrderManager.API.Main
@@ -122,6 +124,7 @@ namespace OrderManager.API.Main
             builder.Services.AddScoped<IOrderQueriesRepository, OrderQueriesRepository>();
             builder.Services.AddScoped<IUserQueriesRepository, UserQueriesRepository>();
             builder.Services.AddScoped<IOrderQueriesRepository, OrderQueriesRepository>();
+            builder.Services.AddScoped<ICheckTimeOccurrenceOrderRespository, CheckTimeOccurenceOrderRepository>();
 
             //UseCase repository
             builder.Services.AddTransient<ICheckTimeOccurrenceOrderInterface, CheckTimeOccurrenceOrderService>();
@@ -154,6 +157,8 @@ namespace OrderManager.API.Main
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gerenciador de Pedidos API v1");
+                    c.RoutePrefix = string.Empty; // Faz o Swagger abrir na raiz "/"
+
                 });
             }
 
