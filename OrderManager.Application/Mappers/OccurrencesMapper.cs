@@ -2,7 +2,9 @@
 using OrderManager.Application.Interfaces.IMapper;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enuns;
+using OrderManager.Domain.Models;
 using OrderManager.Domain.Models.ReponsePattern;
+using OrderManager.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +16,8 @@ namespace OrderManager.Application.Mappers
 {
     public class OccurrencesMapper : IOccurrenceMapperInterface
     {
-        public ResponseModel<List<OccurrenceDTO>>? MapToOccurrenceDTOList(List<OccurrenceEntity> OccurrencesEntity)
+        //List<Entity> para List<DTO>
+        public ResponseModel<List<OccurrenceDTO>>? OccurrencesEntityListToDTOList(List<OccurrenceEntity> OccurrencesEntity)
         {
             ResponseModel<List<OccurrenceDTO>?> Response = new ResponseModel<List<OccurrenceDTO>>();
             try
@@ -47,5 +50,67 @@ namespace OrderManager.Application.Mappers
             }
             return Response;
         }
+
+        public ResponseModel<OccurrenceEntity>? DeleteOccurrencesModelToEntity(DeleteOccurrenceOrderModel Model)
+        {
+            ResponseModel<OccurrenceEntity? > Response = new ResponseModel<OccurrenceEntity?>();
+            try
+            {
+                if (Model is null)
+                {
+                    Response.Message = "Erro. Modelo de ocorrencia é nulo.";
+                    Response.Status= ResponseStatusEnum.Error;
+                    return Response;
+                }
+                var OccurrenceEntityConverted = new OccurrenceEntity
+                    (
+                        new OrderNumberVO(Model.OrderNumber),
+                        Model.OccurrenceId
+                    );
+
+                Response.Content= OccurrenceEntityConverted;
+                Response.Status = ResponseStatusEnum.Success;
+            }
+            catch (Exception ex)
+            {
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
+                Debug.Assert(false, Response.Message);
+            }
+            return Response;
+        }
+
+        //Model para Entity
+        public ResponseModel<OccurrenceEntity>? CreateOccurrencesModelToEntity(CreateOccurrenceToOrderModel OccurrencesModel)
+        {
+            ResponseModel<OccurrenceEntity>? Response = new ResponseModel<OccurrenceEntity>();
+            try
+            {
+                if (OccurrencesModel is null)
+                {
+                    Response.Message = "Erro. Modelo de ocorrencias nulo.";
+                    Response.Status = ResponseStatusEnum.Error;
+                    return Response;
+                }
+
+                var OccurrenceEntityConverted = new OccurrenceEntity
+                    (
+                        new OrderNumberVO(OccurrencesModel.OrderNumber),
+                        OccurrencesModel.ETypeOccurrence
+                    );
+
+                Response.Content = OccurrenceEntityConverted;
+                Response.Status = ResponseStatusEnum.Success;
+            }
+            catch (Exception ex)
+            {
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
+                Debug.Assert(false, Response.Message);
+            }
+            return Response;
+        }
+
+        
     }
 }

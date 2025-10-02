@@ -1,4 +1,5 @@
 ﻿using OrderManager.Domain.Enuns;
+using OrderManager.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,24 @@ namespace OrderManager.Domain.Entities
 {
     public class OccurrenceEntity : BaseEntity
     {
-        public OccurrenceEntity() 
+        public OccurrenceEntity(OrderNumberVO orderNumber, ETypeOccurrenceEnum typeOccurrence) 
         {
-            TimeOccurrence=DateTime.Now;
+            OrderNumber = orderNumber;
+            TypeOccurrence=typeOccurrence;
+            TimeOccurrence =DateTime.Now;
             IndFinishing = false;
         }
+
+        public OccurrenceEntity(OrderNumberVO orderNumber, int OccurrenceId)
+        {
+            OrderNumber = orderNumber;
+            Id = OccurrenceId;
+        }
+
         public ETypeOccurrenceEnum TypeOccurrence { get; private set; }
         public DateTime TimeOccurrence { get; private set; }
         public bool IndFinishing { get; private set; }
-
-        public int OrderId { get; private set; }//chave estangeira
+        public OrderNumberVO OrderNumber { get; private set; }//chave estangeira
         public OrderEntity Order { get; private set; }
 
         public void SetOccurrenceToFinishing()//métdo de domínio

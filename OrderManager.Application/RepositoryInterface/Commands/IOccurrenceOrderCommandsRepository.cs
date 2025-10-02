@@ -11,7 +11,7 @@ namespace OrderManager.Application.RepositoryInterface.Commands
 {
     public interface IOccurrenceOrderCommandsRepository
     {
-        Task<SimpleResponseModel> CreateOccurrenceToOrderRepository(OrderNumberVO orderNumber, OccurrenceEntity occurrenceEntity);
+        Task<SimpleResponseModel> CreateOccurrenceToOrderRepository(OccurrenceEntity occurrenceEntity);
         Task<SimpleResponseModel> DeleteOccurrenceByOrderNumberRepository(OrderNumberVO OrderNumber, int OccurrenceId);
     }
 }

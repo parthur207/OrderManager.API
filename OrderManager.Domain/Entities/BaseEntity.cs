@@ -12,7 +12,7 @@ namespace OrderManager.Domain.Entities
         {
             IsActive = true;
         }
-        public int Id { get; private set; }
+        public int Id { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
         public bool IsActive { get; private set; }
 

@@ -22,14 +22,16 @@ namespace OrderManager.Infrastructure.Repository.Commands
             _dbContextOM = dbContextOM;
         }
 
-        public async Task<SimpleResponseModel> CreateOccurrenceToOrderRepository(OrderNumberVO orderNumber, OccurrenceEntity occurrenceEntity)
+        public async Task<SimpleResponseModel> CreateOccurrenceToOrderRepository(OccurrenceEntity occurrenceEntity)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
 
             try
             {
                 var Order = await _dbContextOM.OrderEntity.Include(x => x.Occurrences)
-                    .FirstOrDefaultAsync(x => x.OrderNumber.Value == orderNumber.Value);
+                    .FirstOrDefaultAsync(x => x.OrderNumber.Value == occurrenceEntity.OrderNumber.Value);
+
+                int orderNumber = occurrenceEntity.OrderNumber.Value;
 
                 if (Order is null)//verificando se o pedido com o numero informado existe
                 {

@@ -53,6 +53,8 @@ namespace OrderManager.Application.Mappers
             return Response;
         }
 
+        
+
         public ResponseModel<OrderDTO> OrderEntityToDTO(OrderEntity OrderEntity)
         {
             ResponseModel<OrderDTO> Response = new ResponseModel<OrderDTO>();
@@ -68,7 +70,7 @@ namespace OrderManager.Application.Mappers
                 var orderDTOConverted = new OrderDTO
                 (
                     OrderEntity.OrderNumber.Value, 
-                    _occurrenceMapperInterface.MapToOccurrenceDTOList(OrderEntity.Occurrences).Content, 
+                    _occurrenceMapperInterface.OccurrencesEntityListToDTOList(OrderEntity.Occurrences).Content, 
                     OrderEntity.User.Name, 
                     OrderEntity.User.Email.Value,
                     OrderEntity.User.Address,
@@ -105,7 +107,7 @@ namespace OrderManager.Application.Mappers
                     var OrderDTOConverted= new OrderDTO
                         (
                             item.OrderNumber.Value,
-                            _occurrenceMapperInterface.MapToOccurrenceDTOList(item.Occurrences).Content,
+                            _occurrenceMapperInterface.OccurrencesEntityListToDTOList(item.Occurrences).Content,
                             item.User.Name,
                             item.User.Email.Value,
                             item.User.Address,
