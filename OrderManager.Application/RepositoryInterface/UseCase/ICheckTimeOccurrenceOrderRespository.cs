@@ -11,6 +11,6 @@ namespace OrderManager.Application.RepositoryInterface.UseCase
 {
     public interface ICheckTimeOccurrenceOrderRespository
     {
-        Task<SimpleResponseModel> CheckTimeRepository(OrderNumberVO OrderNumber, ETypeOccurrenceEnum TypeOccurrenceEnum);
+        Task<SimpleResponseModel> CheckTimeRepository(int OrderNumber, ETypeOccurrenceEnum TypeOccurrenceEnum);
     }
 }

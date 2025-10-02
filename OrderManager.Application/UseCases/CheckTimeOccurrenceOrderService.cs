@@ -34,7 +34,7 @@ namespace OrderManager.Application.UseCases
                 }
                 
              
-                var ResponseRepository = await _checkTimeOccurrenceOrderRespository.CheckTimeRepository(OrderNumber, typeOccurrence);
+                var ResponseRepository = await _checkTimeOccurrenceOrderRespository.CheckTimeRepository(OrderNumber.Value, typeOccurrence);
 
                 if (ResponseRepository.Status.Equals(ResponseStatusEnum.Error)
                     || ResponseRepository.Status.Equals(ResponseStatusEnum.CriticalError))

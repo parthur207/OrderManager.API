@@ -24,28 +24,34 @@ namespace OrderManager.Infrastructure.Repository.UseCase
             _dbContextOM = dbContextOM;
         }
 
-        public async Task<SimpleResponseModel> CheckTimeRepository(OrderNumberVO orderNumber, ETypeOccurrenceEnum typeOccurrence)
+        public async Task<SimpleResponseModel> CheckTimeRepository(int orderNumber, ETypeOccurrenceEnum typeOccurrence)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
 
             try
             {
-                var order = await _dbContextOM.OrderEntity.FirstOrDefaultAsync(x => x.OrderNumber.Value == orderNumber.Value);
+                var order = await _dbContextOM.OrderEntity.FirstOrDefaultAsync(x => x.OrderNumber.Value == orderNumber);
 
                 if (order is null)
                 {
-                    Response.Message = $"Não foi encontrado nenhum pedido com o número informado: {orderNumber.Value}";
+                    Response.Message = $"Não foi encontrado nenhum pedido com o número informado: {orderNumber}";
                     Response.Status = ResponseStatusEnum.NotFound;
                     return Response;
                 }
                 var TimeLastOccurrence= order.Occurrences.FirstOrDefault();
 
+                if (order.Occurrences is null || !order.Occurrences.Any())
+                {
+                    Response.Status=ResponseStatusEnum.Success;
+                    return Response;
+                }
+
                 TimeSpan TimeDifference = DateTime.Now - TimeLastOccurrence.TimeOccurrence;
 
-                if (order.Occurrences.Any(x => x.TypeOccurrence.Equals(typeOccurrence)) && TimeDifference.TotalMinutes >= 10)
+                if (order.Occurrences.Any(x => x.TypeOccurrence.Equals(typeOccurrence)) && TimeDifference.TotalMinutes <= 10)
                 {
-                    Response.Status = ResponseStatusEnum.Success;
-                    Response.Message = "Válido para inserir uma nova ocorrência da mesma tipagem.";
+                    Response.Status = ResponseStatusEnum.Error;
+                    Response.Message = "Não é possível a inserção de uma mesma ocorrencia em um período de 10 minutos.";
                 }
 
                 Response.Status = ResponseStatusEnum.Success;

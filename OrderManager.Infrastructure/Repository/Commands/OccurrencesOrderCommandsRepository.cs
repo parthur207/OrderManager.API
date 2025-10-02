@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderManager.Application.RepositoryInterface.Commands;
+using OrderManager.Application.RepositoryInterface.UseCase;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
@@ -12,9 +13,11 @@ namespace OrderManager.Infrastructure.Repository.Commands
     public class OccurrencesOrderCommandsRepository : IOccurrenceOrderCommandsRepository
     {
         private readonly DbContextOrderManager _dbContextOM;
-        public OccurrencesOrderCommandsRepository(DbContextOrderManager dbContextOM)
+        private readonly ICheckTimeOccurrenceOrderRespository _checkTimeOccurrenceOrderRespository;
+        public OccurrencesOrderCommandsRepository(DbContextOrderManager dbContextOM, ICheckTimeOccurrenceOrderRespository checkTimeOccurrenceOrderRespository)
         {
             _dbContextOM = dbContextOM;
+            _checkTimeOccurrenceOrderRespository = checkTimeOccurrenceOrderRespository;
         }
 
         public async Task<SimpleResponseModel> CreateOccurrenceToOrderRepository(OccurrenceEntity occurrenceEntity)
@@ -23,6 +26,15 @@ namespace OrderManager.Infrastructure.Repository.Commands
 
             try
             {
+   
+                var ResponseCheckTime= await _checkTimeOccurrenceOrderRespository.CheckTimeRepository(occurrenceEntity.OrderNumber, occurrenceEntity.TypeOccurrence);
+
+                if (ResponseCheckTime.Status==ResponseStatusEnum.Error)
+                {
+                    Response.Status = ResponseCheckTime.Status;
+                    Response.Message = ResponseCheckTime.Message;
+                    return Response;
+                }
                 var Order = await _dbContextOM.OrderEntity.Include(x => x.Occurrences)
                     .FirstOrDefaultAsync(x => x.OrderNumber.Value == occurrenceEntity.OrderNumber);
 

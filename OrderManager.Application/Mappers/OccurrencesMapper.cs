@@ -22,6 +22,7 @@ namespace OrderManager.Application.Mappers
             ResponseModel<List<OccurrenceDTO>?> Response = new ResponseModel<List<OccurrenceDTO>>();
             try
             {
+                List<OccurrenceDTO>? ListDTO = new List<OccurrenceDTO>();
                 if (OccurrencesEntity is null)
                 {
                     Response.Message = "Ocorrencias Nulas.";
@@ -37,9 +38,9 @@ namespace OrderManager.Application.Mappers
                        item.TimeOccurrence,
                        item.IndFinishing
                     );
-                    Response.Content.Add(occurrenceDTO);
+                    ListDTO.Add(occurrenceDTO);
                 }
-
+                Response.Content = ListDTO;
                 Response.Status = ResponseStatusEnum.Success;
             }
             catch (Exception ex)

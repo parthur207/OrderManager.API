@@ -30,7 +30,7 @@ namespace OrderManager.Infrastructure.Persistence
             modelBuilder.Entity<OrderEntity>()
                 .HasMany(o => o.Occurrences)
                 .WithOne(oc => oc.Order)
-                .HasForeignKey(oc => oc.OrderNumber) // FK int
+                .HasForeignKey(oc => oc.Id) // FK int
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
