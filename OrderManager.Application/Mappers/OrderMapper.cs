@@ -2,7 +2,6 @@
 using OrderManager.Application.DTOs.Adm;
 using OrderManager.Application.Interfaces;
 using OrderManager.Application.Interfaces.IMapper;
-using OrderManager.Application.Mappers.MappersInterface;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models;

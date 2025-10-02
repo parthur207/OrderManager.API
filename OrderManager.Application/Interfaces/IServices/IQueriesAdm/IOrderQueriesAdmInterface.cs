@@ -3,7 +3,7 @@ using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
 using OrderManager.Domain.ValueObjects;
 
-namespace OrderManager.Application.Interfaces.IServices.Adm
+namespace OrderManager.Application.Interfaces.IServices.IQueriesAdm
 {
     public interface IOrderQueriesAdmInterface
     {

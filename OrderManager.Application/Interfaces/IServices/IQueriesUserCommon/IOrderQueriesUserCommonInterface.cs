@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManager.Application.Interfaces.IServices.IQueriesGenericUser
+namespace OrderManager.Application.Interfaces.IServices.IQueriesUserCommon
 {
-    public interface IOrderQueriesUserGenericInterface
+    public interface IOrderQueriesUserCommonInterface
     {
 
         Task<ResponseModel<List<OrderDTO>>?> GetOrdersByUserId(int userId);

@@ -1,6 +1,6 @@
 ﻿using OrderManager.Application.DTOs;
-using OrderManager.Application.Interfaces.IServices.Adm;
-using OrderManager.Application.Mappers.MappersInterface;
+using OrderManager.Application.Interfaces.IMapper;
+using OrderManager.Application.Interfaces.IServices.IQueriesAdm;
 using OrderManager.Application.RepositoryInterface.Queries;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;

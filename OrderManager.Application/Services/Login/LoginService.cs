@@ -1,5 +1,5 @@
-﻿using OrderManager.Application.Interfaces.IServices.ILoginInterface;
-using OrderManager.Application.Mappers.MappersInterface;
+﻿using OrderManager.Application.Interfaces.IMapper;
+using OrderManager.Application.Interfaces.IServices.ILogin;
 using OrderManager.Application.RepositoryInterface.Login;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models;

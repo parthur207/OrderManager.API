@@ -1,6 +1,6 @@
 ﻿using OrderManager.Application.DTOs.Adm;
-using OrderManager.Application.Interfaces.IServices.Adm;
-using OrderManager.Application.Mappers.MappersInterface;
+using OrderManager.Application.Interfaces.IMapper;
+using OrderManager.Application.Interfaces.IServices.IQueriesAdm;
 using OrderManager.Application.RepositoryInterface.Queries;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
@@ -99,7 +99,8 @@ namespace OrderManager.Application.Services.QueriesAdm
             }
             catch (Exception ex)
             {
-
+                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
+                Response.Status = ResponseStatusEnum.CriticalError;
             }
             return Response;
         }

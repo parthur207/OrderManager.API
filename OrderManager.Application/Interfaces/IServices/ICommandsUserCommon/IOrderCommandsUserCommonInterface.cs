@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManager.Application.Interfaces.IServices.ICommandsGenericUser
+namespace OrderManager.Application.Interfaces.IServices.ICommandsUserCommon
 {
-    public interface IOrderCommandsUserGenericInterface
+    public interface IOrderCommandsUserCommonInterface
     { 
         Task<SimpleResponseModel> CreateOrder(CreateOrderModel Model, int UserId);
     }

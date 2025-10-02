@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManager.Application.Interfaces.IServices.Adm
+namespace OrderManager.Application.Interfaces.IServices.IQueriesAdm
 {
     public interface IUserQueriesAdmInterface
     {

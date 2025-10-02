@@ -18,8 +18,4 @@
     <ProjectReference Include="..\OrderManager.Infrastructure\OrderManager.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Pattern\" />
-  </ItemGroup>
-
 </Project>

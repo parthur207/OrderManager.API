@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManager.Application.Interfaces.IServices.ILoginInterface
+namespace OrderManager.Application.Interfaces.IServices.ILogin
 {
     public interface ILoginInterface
     {

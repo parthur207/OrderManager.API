@@ -1,5 +1,5 @@
 ﻿using OrderManager.Application.DTOs.Adm;
-using OrderManager.Application.Mappers.MappersInterface;
+using OrderManager.Application.Interfaces.IMapper;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models;

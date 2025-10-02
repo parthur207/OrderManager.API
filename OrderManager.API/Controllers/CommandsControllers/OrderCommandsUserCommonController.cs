@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace OrderManager.API.Controllers.UserCommom
+namespace OrderManager.API.Controllers.CommandsControllers
 {
-    public class OrderControllerUserCommon : Controller
+    public class OrderCommandsUserCommonController : Controller
     {
         public IActionResult Index()
         {

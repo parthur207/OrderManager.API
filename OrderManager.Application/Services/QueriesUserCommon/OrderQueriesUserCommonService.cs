@@ -1,31 +1,24 @@
 ﻿using OrderManager.Application.DTOs;
-using OrderManager.Application.Interfaces.IServices.ICommandsGenericUser;
-using OrderManager.Application.Interfaces.IServices.IQueriesGenericUser;
-using OrderManager.Application.Mappers.MappersInterface;
+using OrderManager.Application.Interfaces.IMapper;
+using OrderManager.Application.Interfaces.IServices.IQueriesUserCommon;
 using OrderManager.Application.RepositoryInterface.Queries;
 using OrderManager.Domain.Enuns;
-using OrderManager.Domain.Models;
 using OrderManager.Domain.Models.ReponsePattern;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OrderManager.Application.Services.Queries
+namespace OrderManager.Application.Services.QueriesUserCommon
 {
-    public class OrderQueriesUserGenericService : IOrderQueriesUserGenericInterface
+    public class OrderQueriesUserCommonService : IOrderQueriesUserCommonInterface
     {
         private readonly IOrderQueriesRepository _orderQueriesRepository;
         private readonly IOrderMapperInterface _orderMapperInterface;
-        public OrderQueriesUserGenericService(IOrderQueriesRepository orderQueriesRepository, IOrderMapperInterface orderMapperInterface)
+        public OrderQueriesUserCommonService(IOrderQueriesRepository orderQueriesRepository, IOrderMapperInterface orderMapperInterface)
         {
             _orderQueriesRepository = orderQueriesRepository;
             _orderMapperInterface = orderMapperInterface;
         }
         public async Task<ResponseModel<List<OrderDTO>?>> GetOrdersByUserId(int userId)
         {
-            ResponseModel<List<OrderDTO>?> Response= new ResponseModel<List<OrderDTO>?>();
+            ResponseModel<List<OrderDTO>?> Response = new ResponseModel<List<OrderDTO>?>();
             try
             {
                 var orderEntity = await _orderQueriesRepository.GetAllOrdersByUserIdRepository(userId);
@@ -34,7 +27,7 @@ namespace OrderManager.Application.Services.Queries
                     || orderEntity.Status.Equals(ResponseStatusEnum.Error)
                     || orderEntity.Status.Equals(ResponseStatusEnum.CriticalError))
                 {
-                    Response.Status= orderEntity.Status;
+                    Response.Status = orderEntity.Status;
                     if (orderEntity.Status.Equals(ResponseStatusEnum.CriticalError))
                         Response.Message = "Ocorreu um erro inesperado.";
                     else
@@ -48,7 +41,7 @@ namespace OrderManager.Application.Services.Queries
                 Response.Status = orderDTO.Status;
                 Response.Message = orderDTO.Message;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
                 Response.Status = ResponseStatusEnum.CriticalError;

@@ -1,5 +1,5 @@
-﻿using OrderManager.Application.Interfaces.IServices.ICommandsGenericUser;
-using OrderManager.Application.Mappers.MappersInterface;
+﻿using OrderManager.Application.Interfaces.IMapper;
+using OrderManager.Application.Interfaces.IServices.ICommandsUserCommon;
 using OrderManager.Application.RepositoryInterface.Commands;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models;
@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Application.Services.CommandsUserGeneric
 {
-    public class UserCommandsUserGenericService : IUserCommandsUserGenericInterface
+    public class UserCommandsUserCommonService : IUserCommandsUserCommonInterface
     {
         private readonly IUserCommandsRepository _userCommandsUserRepository;
         private readonly IUserMapperInterface _userMapperInterface;
-        public UserCommandsUserGenericService(IUserCommandsRepository userCommandsUserRepository, IUserMapperInterface userMapperInterface)
+        public UserCommandsUserCommonService(IUserCommandsRepository userCommandsUserRepository, IUserMapperInterface userMapperInterface)
         {
             _userCommandsUserRepository = userCommandsUserRepository;
             _userMapperInterface= userMapperInterface;

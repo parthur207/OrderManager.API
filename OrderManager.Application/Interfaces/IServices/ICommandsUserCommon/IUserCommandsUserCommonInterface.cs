@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrderManager.Application.Interfaces.IServices.ICommandsGenericUser
+namespace OrderManager.Application.Interfaces.IServices.ICommandsUserCommon
 {
-    public interface IUserCommandsUserGenericInterface
+    public interface IUserCommandsUserCommonInterface
     {
-        Task<SimpleResponseModel> CreateUser(CreateUserModel Model);    
+        Task<SimpleResponseModel> CreateUser(CreateUserModel Model);
     }
 }
