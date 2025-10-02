@@ -56,7 +56,7 @@ namespace OrderManager.Application.Mappers
             catch (Exception EX)
             {
                 Response.Status = ResponseStatusEnum.Error;
-                Response.Message = EX.Message;
+                Response.Message =  EX.Message;
             }
             return Response;
         }
@@ -151,6 +151,7 @@ namespace OrderManager.Application.Mappers
             {
                 Response.Status = ResponseStatusEnum.Error;
                 Response.Message = EX.Message;
+                Debug.Assert(false, Response.Message);
             }
             return Response;
         }

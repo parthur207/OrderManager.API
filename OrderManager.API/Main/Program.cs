@@ -94,6 +94,10 @@ namespace OrderManager.API.Main
                 .UseInMemoryDatabase("DbContextInMemory")
                 .EnableSensitiveDataLogging()); //Utilização do Banco em memória
 
+            /*builder.Services.AddDbContext<DbContextOrderManager>(options => options.UseSqlServer(
+                builder.Configuration.GetConnectionString("ConnectionStringSQL")
+                ));*/ //Utilização do Banco SQL Server
+
             #region Serviços - Injeções de dependencia (Tempo de vida)
 
             //Mappers
@@ -110,11 +114,10 @@ namespace OrderManager.API.Main
             builder.Services.AddScoped<IOrderQueriesAdmInterface, OrderQueriesAdmService>();
             builder.Services.AddScoped<IUserQueriesAdmInterface, UserQueriesAdmService>();
             builder.Services.AddScoped<IOrderQueriesUserCommonInterface, OrderQueriesUserCommonService>();
-            builder.Services.AddScoped<IOrderNumberGeneratorInterface, OrderNumberGeneratorService>();
-
 
             //Service UseCase
-            builder.Services.AddTransient<ICheckTimeOccurrenceOrderInterface, CheckTimeOccurrenceOrderService>();
+            builder.Services.AddScoped<IOrderNumberGeneratorInterface, OrderNumberGeneratorService>();
+            builder.Services.AddScoped<ICheckTimeOccurrenceOrderInterface, CheckTimeOccurrenceOrderService>();
 
             //jwt
             builder.Services.AddScoped<IJwtInterface, JwtService>();
@@ -127,10 +130,11 @@ namespace OrderManager.API.Main
             builder.Services.AddScoped<IOrderQueriesRepository, OrderQueriesRepository>();
             builder.Services.AddScoped<IUserQueriesRepository, UserQueriesRepository>();
             builder.Services.AddScoped<IOrderQueriesRepository, OrderQueriesRepository>();
-            builder.Services.AddScoped<ICheckTimeOccurrenceOrderRespository, CheckTimeOccurenceOrderRepository>();
 
             //UseCase repository
-            builder.Services.AddTransient<ICheckTimeOccurrenceOrderInterface, CheckTimeOccurrenceOrderService>();
+            builder.Services.AddScoped<ICheckTimeOccurrenceOrderRespository, CheckTimeOccurenceOrderRepository>();
+            builder.Services.AddScoped<ICheckOrderNumberExistsRepository, CheckOrderNumberExistsRepository>();
+
             #endregion
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

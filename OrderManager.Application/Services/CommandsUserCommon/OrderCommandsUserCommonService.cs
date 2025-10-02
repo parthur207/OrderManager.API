@@ -22,7 +22,7 @@ namespace OrderManager.Application.Services.CommandsUserGeneric
             SimpleResponseModel Response = new SimpleResponseModel();
             try
             {
-                if (GeneratedNumber<1000)
+                if (GeneratedNumber>9999)
                 {
                     Response.Status= ResponseStatusEnum.Error;
                     Response.Message = "Erro. O modelo de criação de pedido não pode ter mais de 4 digitos.";

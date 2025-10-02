@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderManager.API.Controllers.QueriesControllers.Adm;
 using OrderManager.Application.Interfaces.IServices.ICommandsAdm;
 using OrderManager.Application.Interfaces.IServices.ICommandsUserCommon;
-using OrderManager.Application.RepositoryInterface.UseCase;
+using OrderManager.Application.Interfaces.IUseCase;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models;
 using OrderManager.Domain.ValueObjects;
@@ -37,9 +37,10 @@ namespace OrderManager.API.Controllers.CommandsControllers.UserCommon
         public async Task<IActionResult> CreateOrder()
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var GeneratedNumber = _orderNumberGeneratorInterface.GeneratorNumber();
+            var GeneratedNumber = await _orderNumberGeneratorInterface.GeneratorNumber();
 
-            var ResponseService = await _orderCommandsUserCommonInterface.CreateOrder(GeneratedNumber, userId);
+            
+            var ResponseService = await _orderCommandsUserCommonInterface.CreateOrder(GeneratedNumber.Content, userId);
 
             if (ResponseService.Status.Equals(ResponseStatusEnum.NotFound))
             {
@@ -56,7 +57,7 @@ namespace OrderManager.API.Controllers.CommandsControllers.UserCommon
                 _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | {ResponseService.Message}");
                 return StatusCode(500, "Ocorreu um erro inesperado.");
             }
-            _logger.LogInformation($"Ym novo pedido foi criado. Número do pedido: {GeneratedNumber} | Id do usuário: {userId}");
+            _logger.LogInformation($"Um novo pedido foi criado. Número do pedido: {GeneratedNumber} | Id do usuário: {userId}");
             return Ok(ResponseService);
         }
     }

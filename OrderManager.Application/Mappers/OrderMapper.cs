@@ -98,6 +98,8 @@ namespace OrderManager.Application.Mappers
             ResponseModel<List<OrderDTO>?> Response = new ResponseModel<List<OrderDTO>>();
             try
             {
+                List<OrderDTO>? ListaDTO= new List<OrderDTO>();
+
                 if (OrderEntityList is null || !OrderEntityList.Any())
                 {
                     Response.Message = "Lista de pedidos vazia.";
@@ -117,9 +119,10 @@ namespace OrderManager.Application.Mappers
                             item.IndDelivered,
                             item.TimeOrder
                         );
-
-                    Response.Content.Add(OrderDTOConverted);
+                    ListaDTO.Add(OrderDTOConverted);
+                    
                 }
+                Response.Content = ListaDTO;
 
                 Response.Status = ResponseStatusEnum.Success;
             }

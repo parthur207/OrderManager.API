@@ -1,19 +1,41 @@
-﻿using OrderManager.Application.RepositoryInterface.UseCase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OrderManager.Application.Interfaces.IUseCase;
+using OrderManager.Application.RepositoryInterface.UseCase;
+using OrderManager.Domain.Enuns;
+using OrderManager.Domain.Models.ReponsePattern;
 
-namespace OrderManager.Application.UseCases
+public class OrderNumberGeneratorService : IOrderNumberGeneratorInterface
 {
-    public class OrderNumberGeneratorService : IOrderNumberGeneratorInterface
-    { 
-        public int GeneratorNumber()
+    private readonly ICheckOrderNumberExistsRepository _checkOrderNumberExistsRepository;
+    private static readonly Random random = new Random(); 
+
+    public OrderNumberGeneratorService(ICheckOrderNumberExistsRepository checkOrderNumberExistsRepository)
+    {
+        _checkOrderNumberExistsRepository = checkOrderNumberExistsRepository;
+    }
+
+    public async Task<ResponseModel<int>> GeneratorNumber()
+    {
+        ResponseModel<int> Response = new ResponseModel<int>();
+        int numero = random.Next(1000, 10000);//Gera um número entre 1000 e 9999
+
+        var ResponseRepository = await _checkOrderNumberExistsRepository.CheckOrderNumberRepository(numero);
+
+        if (ResponseRepository.Status == ResponseStatusEnum.CriticalError)
         {
-            Random random = new Random();
-            int numero = random.Next(1000, 10000); // Gera um número entre 1000 e 9999
-            return numero;
+            Response.Status = ResponseRepository.Status;
+            Response.Message = ResponseRepository.Message;
+            return Response;
         }
+
+        if (ResponseRepository.Status == ResponseStatusEnum.Error)
+        {
+            // Retorna a chamada recursiva
+            return await GeneratorNumber();
+        }
+
+        Response.Status = ResponseStatusEnum.Success;
+        Response.Content = numero;
+
+        return Response;
     }
 }

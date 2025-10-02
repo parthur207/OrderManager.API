@@ -89,8 +89,9 @@ namespace OrderManager.Infrastructure.Repository.Commands
             SimpleResponseModel Response = new SimpleResponseModel();
             try
             {
+                int orderNumberValue = orderNumber.Value;
                 var Order = await _dbContextOM.OrderEntity.Include(x => x.Occurrences)
-                    .FirstOrDefaultAsync(x => x.OrderNumber.Value == orderNumber.Value);
+                    .FirstOrDefaultAsync(x => x.OrderNumber.Value == orderNumberValue);
 
                 if (Order is null)//verifica se o pedido existe
                 {
