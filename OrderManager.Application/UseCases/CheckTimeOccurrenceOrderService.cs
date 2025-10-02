@@ -40,10 +40,7 @@ namespace OrderManager.Application.UseCases
                     || ResponseRepository.Status.Equals(ResponseStatusEnum.CriticalError))
                 {
                     Response.Status= ResponseRepository.Status;
-                    if(ResponseRepository.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
-                        Response.Message = ResponseRepository.Message;
+                    Response.Message = ResponseRepository.Message;
                     return Response;
                 }
             }

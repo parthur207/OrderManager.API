@@ -36,12 +36,8 @@ namespace OrderManager.Application.Services.CommandsAdm
                 if (ResponseRespository.Status.Equals(ResponseStatusEnum.Error)
                     || ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
                 {
-                    Response.Status = ResponseRespository.Status;
 
-                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
-                        Response.Status = ResponseRespository.Status;
+                    Response.Status = ResponseRespository.Status;
                     Response.Message = ResponseRespository.Message;
 
                     return Response;
@@ -77,11 +73,6 @@ namespace OrderManager.Application.Services.CommandsAdm
                     || ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
                 {
                     Response.Status = ResponseRespository.Status;
-
-                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
-                        Response.Status = ResponseRespository.Status;
                     Response.Message = ResponseRespository.Message;
 
                     return Response;
@@ -119,11 +110,6 @@ namespace OrderManager.Application.Services.CommandsAdm
                     || ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
                 {
                     Response.Status = ResponseRespository.Status;
-
-                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
-                        Response.Status = ResponseRespository.Status;
                     Response.Message = ResponseRespository.Message;
 
                     return Response;
@@ -160,11 +146,6 @@ namespace OrderManager.Application.Services.CommandsAdm
                 if (ResponseRespository.Status.Equals(ResponseStatusEnum.Error)
                     || ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
                 {
-                    Response.Status = ResponseRespository.Status;
-
-                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
                         Response.Status = ResponseRespository.Status;
                     Response.Message = ResponseRespository.Message;
 

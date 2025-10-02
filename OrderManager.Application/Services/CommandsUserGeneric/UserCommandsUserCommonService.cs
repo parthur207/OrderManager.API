@@ -49,9 +49,6 @@ namespace OrderManager.Application.Services.CommandsUserGeneric
                    ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
                 {
                     Response.Status= ResponseRespository.Status;
-                    if(ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
                         Response.Message = ResponseRespository.Message;
 
                     return Response;

@@ -28,10 +28,7 @@ namespace OrderManager.Application.Services.QueriesUserCommon
                     || orderEntity.Status.Equals(ResponseStatusEnum.CriticalError))
                 {
                     Response.Status = orderEntity.Status;
-                    if (orderEntity.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
-                        Response.Message = orderEntity.Message;
+                    Response.Message = orderEntity.Message;
 
                     return Response;
                 }

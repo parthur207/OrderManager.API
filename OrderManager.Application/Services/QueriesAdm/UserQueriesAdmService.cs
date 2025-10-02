@@ -34,10 +34,7 @@ namespace OrderManager.Application.Services.QueriesAdm
                    ResponseRespository.Status.Equals(ResponseStatusEnum.NotFound))
                 {
                     Response.Status = ResponseRespository.Status;
-                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
-                        Response.Message = ResponseRespository.Message;
+                    Response.Message = ResponseRespository.Message;
 
                     return Response;
                 }
@@ -67,10 +64,7 @@ namespace OrderManager.Application.Services.QueriesAdm
                    ResponseRespository.Status.Equals(ResponseStatusEnum.NotFound))
                 {
                     Response.Status = ResponseRespository.Status;
-                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
-                        Response.Message = ResponseRespository.Message;
+                    Response.Message = ResponseRespository.Message;
 
                     return Response;
                 }
@@ -95,7 +89,20 @@ namespace OrderManager.Application.Services.QueriesAdm
             ResponseModel<UserAdmDTO>? Response = new ResponseModel<UserAdmDTO>();
             try
             {
-
+                var User= await _userQueriesRepository.GetUserByOrderNumberRepository(orderNumber);
+                
+                if (User.Status.Equals(ResponseStatusEnum.Error) ||
+                   User.Status.Equals(ResponseStatusEnum.CriticalError) ||
+                   User.Status.Equals(ResponseStatusEnum.NotFound))
+                {
+                    Response.Status = User.Status;
+                    Response.Message = User.Message;
+                    return Response;
+                }
+                var UserDTO = _userMapperInterface.UserEntityToDTO(User.Content);
+                Response.Content = UserDTO.Content;
+                Response.Status = UserDTO.Status;
+                Response.Message = UserDTO.Message;
             }
             catch (Exception ex)
             {

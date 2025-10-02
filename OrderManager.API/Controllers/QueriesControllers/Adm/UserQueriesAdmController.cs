@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OrderManager.Application.Interfaces.IServices.IQueriesAdm;
 using OrderManager.Domain.Enuns;
+using OrderManager.Domain.ValueObjects;
 
 namespace OrderManager.API.Controllers.QueriesControllers.Adm
 {
@@ -11,12 +12,12 @@ namespace OrderManager.API.Controllers.QueriesControllers.Adm
     {
         private readonly ILogger<UserQueriesAdmController> _logger;
 
-        private readonly IOrderQueriesAdmInterface _orderQueriesAdmInterface;
+        private readonly IUserQueriesAdmInterface _userQueriesAdmInterface;
         public UserQueriesAdmController(ILogger<UserQueriesAdmController> logger,
-            IOrderQueriesAdmInterface orderQueriesAdmInterface)
+            IUserQueriesAdmInterface userQueriesAdmInterface)
         {
             _logger = logger;
-            _orderQueriesAdmInterface = orderQueriesAdmInterface;
+            _userQueriesAdmInterface = userQueriesAdmInterface;
         }
 
         private string GetCurrentEndpoint()
@@ -28,21 +29,78 @@ namespace OrderManager.API.Controllers.QueriesControllers.Adm
         [HttpGet("user/all")]
         public async Task<IActionResult> GetAllUsers()
         {
-            return Ok();
+            var response = await _userQueriesAdmInterface.GetAllUsers();
+
+            if (response.Status.Equals(ResponseStatusEnum.NotFound))
+            {
+                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+                return NotFound(response);
+            }
+            if (response.Status.Equals(ResponseStatusEnum.Error))
+            {
+                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+                return BadRequest(response);
+            }
+            if (response.Status.Equals(ResponseStatusEnum.CriticalError))
+            {
+                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+                return StatusCode(500, "Ocorreu um erro inesperado.");
+            }
+
+            _logger.LogInformation($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+            return Ok(response);
         }
 
         [Authorize(Roles = nameof(RoleEnum.Adm))]
-        [HttpGet()]
-        public async Task<IActionResult> GetUserByEmail()
+        [HttpGet("user/email")]
+        public async Task<IActionResult> GetUserByEmail([FromQuery] string Email)
         {
-            return Ok();
+            var response = await _userQueriesAdmInterface.GetUserByEmail(new UserEmailVO(Email));
+
+            if (response.Status.Equals(ResponseStatusEnum.NotFound))
+            {
+                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+                return NotFound(response);
+            }
+            if (response.Status.Equals(ResponseStatusEnum.Error))
+            {
+                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+                return BadRequest(response);
+            }
+            if (response.Status.Equals(ResponseStatusEnum.CriticalError))
+            {
+                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+                return StatusCode(500, "Ocorreu um erro inesperado.");
+            }
+
+            _logger.LogInformation($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+            return Ok(response);
         }
 
         [Authorize(Roles = nameof(RoleEnum.Adm))]
-        [HttpGet()]
-        public async Task<IActionResult> GetUserByOrderNumber()
+        [HttpGet("")]
+        public async Task<IActionResult> GetUserByOrderNumber([FromRoute] int OrderNumber)
         {
-            return Ok();
+            var response = await _userQueriesAdmInterface.GetUserByOrderNumber(new OrderNumberVO(OrderNumber));
+
+            if (response.Status.Equals(ResponseStatusEnum.NotFound))
+            {
+                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+                return NotFound(response);
+            }
+            if (response.Status.Equals(ResponseStatusEnum.Error))
+            {
+                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+                return BadRequest(response);
+            }
+            if (response.Status.Equals(ResponseStatusEnum.CriticalError))
+            {
+                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+                return StatusCode(500, "Ocorreu um erro inesperado.");
+            }
+
+            _logger.LogInformation($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+            return Ok(response);
         }
     }
 }

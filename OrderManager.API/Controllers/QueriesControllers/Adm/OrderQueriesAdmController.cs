@@ -33,18 +33,18 @@ namespace OrderManager.API.Controllers.QueriesControllers.Adm
 
             if (ResponseService.Status.Equals(ResponseStatusEnum.NotFound))
             {
-                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | Nenhum pedido foi encontrado.");
+                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | {ResponseService.Message}");
                 return NotFound(ResponseService);
             }
             if (ResponseService.Status.Equals(ResponseStatusEnum.Error))
             {
-                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | Ocorreu um erro ao buscar os pedidos.");
+                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | {ResponseService.Message}");
                 return BadRequest(ResponseService);
             }
             if (ResponseService.Status.Equals(ResponseStatusEnum.CriticalError))
             {
-                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | Ocorreu um erro inesperado ao buscar os pedidos.");
-                return StatusCode(500, ResponseService);
+                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | {ResponseService.Message}");
+                return StatusCode(500, "Ocorreu um erro inesperado.");
             }
             _logger.LogInformation("Pedidos coletados com sucesso.");
             return Ok(ResponseService);
@@ -58,20 +58,20 @@ namespace OrderManager.API.Controllers.QueriesControllers.Adm
 
             if (ResponseService.Status.Equals(ResponseStatusEnum.NotFound))
             {
-                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | Nenhum pedido foi encontrado atrelado ao email.");
+                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | {ResponseService.Message}");
                 return NotFound(ResponseService);
             }
             if (ResponseService.Status.Equals(ResponseStatusEnum.Error))
             {
-                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | Ocorreu um erro ao buscar os pedidos atrelados ao email '{email}'.");
+                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | {ResponseService.Message}.");
                 return BadRequest(ResponseService);
             }
             if (ResponseService.Status.Equals(ResponseStatusEnum.CriticalError))
             {
-                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | Erro crítico inesperado ao buscar os pedidos atrelado ao email '{email}'");
-                return StatusCode(500, ResponseService);
+                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | {ResponseService.Message}");
+                return StatusCode(500, "Ocorreu um erro inesperado.");
             }
-            _logger.LogInformation($"EndPoint: {GetCurrentEndpoint()} | Pedidos coletados com sucesso.");
+            _logger.LogInformation($"EndPoint: {GetCurrentEndpoint()} |  {ResponseService.Message}");
             return Ok(ResponseService);
         }
 
@@ -84,21 +84,21 @@ namespace OrderManager.API.Controllers.QueriesControllers.Adm
 
             if (response.Status.Equals(ResponseStatusEnum.NotFound))
             {
-                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | Pedido '{orderNumber}' não foi encontrado.");
+                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
                 return NotFound(response);
             }
             if (response.Status.Equals(ResponseStatusEnum.Error))
             {
-                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | Erro ao buscar pedido '{orderNumber}'.");
+                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
                 return BadRequest(response);
             }
             if (response.Status.Equals(ResponseStatusEnum.CriticalError))
             {
-                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | Erro crítico inesperado ao buscar pedido '{orderNumber}'.");
-                return StatusCode(500, response);
+                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} |  {response.Message}");
+                return StatusCode(500, "Ocorreu um erro inesperado.");
             }
 
-            _logger.LogInformation($"EndPoint: {GetCurrentEndpoint()} | Pedido '{orderNumber}' coletado com sucesso.");
+            _logger.LogInformation($"EndPoint: {GetCurrentEndpoint()} |  {response.Message}");
             return Ok(response);
         }
 
@@ -110,21 +110,21 @@ namespace OrderManager.API.Controllers.QueriesControllers.Adm
 
             if (response.Status.Equals(ResponseStatusEnum.NotFound))
             {
-                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | Nenhum pedido encontrado para o tipo {typeOccurrence}.");
+                _logger.LogWarning($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
                 return NotFound(response);
             }
             if (response.Status.Equals(ResponseStatusEnum.Error))
             {
-                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | Erro ao buscar pedidos do tipo {typeOccurrence}.");
+                _logger.LogError($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
                 return BadRequest(response);
             }
             if (response.Status.Equals(ResponseStatusEnum.CriticalError))
             {
-                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | Erro crítico inesperado ao buscar pedidos do tipo '{typeOccurrence}'.");
-                return StatusCode(500, response);
+                _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
+                return StatusCode(500, "Ocorreu um erro inesperado.");
             }
 
-            _logger.LogInformation($"EndPoint: {GetCurrentEndpoint()} | Pedidos do tipo '{typeOccurrence}' coletados com sucesso.");
+            _logger.LogInformation($"EndPoint: {GetCurrentEndpoint()} | {response.Message}");
             return Ok(response);
         }
 

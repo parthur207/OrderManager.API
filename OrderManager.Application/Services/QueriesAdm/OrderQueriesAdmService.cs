@@ -65,10 +65,7 @@ namespace OrderManager.Application.Services.QueriesAdm
                    ResponseRespository.Status.Equals(ResponseStatusEnum.NotFound))
                 {
                     Response.Status = ResponseRespository.Status;
-                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
-                        Response.Message = ResponseRespository.Message;
+                    Response.Message = ResponseRespository.Message;
 
                     return Response;
                 }
@@ -102,9 +99,6 @@ namespace OrderManager.Application.Services.QueriesAdm
                    ResponseRespository.Status.Equals(ResponseStatusEnum.NotFound))
                 {
                     Response.Status = ResponseRespository.Status;
-                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
-                        Response.Message = "Ocorreu um erro inesperado.";
-                    else
                         Response.Message = ResponseRespository.Message;
 
                     return Response;
