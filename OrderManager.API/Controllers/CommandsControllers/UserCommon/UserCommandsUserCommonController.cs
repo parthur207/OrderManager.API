@@ -62,7 +62,6 @@ namespace OrderManager.API.Controllers.CommandsControllers.UserCommon
         [HttpPost("login/user")]
         public async Task<IActionResult> Login([FromBody] UserLoginModel loginUserModel)
         {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
             var ResponseService = await _loginInterface.Login(loginUserModel);
 
