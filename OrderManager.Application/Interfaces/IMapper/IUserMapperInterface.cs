@@ -14,6 +14,7 @@ namespace OrderManager.Application.Mappers.MappersInterface
     {
         //Entity=> DTO
         ResponseModel<UserAdmDTO>? UserEntityToDTO(UserEntity entity);
+        ResponseModel<List<UserAdmDTO>>? UserEntityListToDTOList(List<UserEntity> entityList);
 
         //Model => Entity
         ResponseModel<UserEntity>? UserCreateModelToEntity(CreateUserModel UserModel);//Para cadastros

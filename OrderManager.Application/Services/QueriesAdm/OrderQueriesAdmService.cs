@@ -1,5 +1,7 @@
 ﻿using OrderManager.Application.DTOs;
 using OrderManager.Application.Interfaces.IServices.Adm;
+using OrderManager.Application.Mappers.MappersInterface;
+using OrderManager.Application.RepositoryInterface.Queries;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
 using OrderManager.Domain.ValueObjects;
@@ -8,24 +10,155 @@ namespace OrderManager.Application.Services.QueriesAdm
 {
     public class OrderQueriesAdmService : IOrderQueriesAdmInterface
     {
-        public Task<ResponseModel<List<OrderDTO>>?> GetAllOrders()
+        private readonly IOrderQueriesRepository _orderQueriesRepository;
+        private readonly IOrderMapperInterface _orderMapperInterface;
+        public OrderQueriesAdmService(IOrderQueriesRepository orderQueriesRepository,
+            IOrderMapperInterface orderMapperInterface)
         {
-            throw new NotImplementedException();
+            _orderQueriesRepository = orderQueriesRepository;
+            _orderMapperInterface = orderMapperInterface;
+        }
+        public async Task<ResponseModel<List<OrderDTO>?>> GetAllOrders()
+        {
+            ResponseModel<List<OrderDTO>?> Response = new ResponseModel<List<OrderDTO>>();
+            try
+            {
+                var ResponseRespository = await _orderQueriesRepository.GetAllOrdersRepository();
+
+                if (ResponseRespository.Status.Equals(ResponseStatusEnum.Error) ||
+                   ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError) ||
+                   ResponseRespository.Status.Equals(ResponseStatusEnum.NotFound))
+                {
+                    Response.Status = ResponseRespository.Status;
+                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
+                        Response.Message = "Ocorreu um erro inesperado.";
+                    else
+                        Response.Message = ResponseRespository.Message;
+
+                    return Response;
+                }
+                var OrdersDTO= _orderMapperInterface.OrderEntityListToDTOList(ResponseRespository.Content);
+
+                Response.Status = OrdersDTO.Status;
+                Response.Message = OrdersDTO.Message;
+                Response.Content = OrdersDTO.Content;
+            }
+            catch (Exception ex)
+            {
+                //Log de erro
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = "Ocorreu um erro inesperado.";
+            }
+            return Response;
+
         }
 
-        public Task<ResponseModel<List<OrderDTO>>?> GetAllOrdersByTypeOccurrence(ETypeOccurrenceEnum occurrence)
+        public async Task<ResponseModel<List<OrderDTO>>?> GetAllOrdersByTypeOccurrence(ETypeOccurrenceEnum occurrence)
         {
-            throw new NotImplementedException();
+            ResponseModel<List<OrderDTO>?> Response = new ResponseModel<List<OrderDTO>>();
+            try
+            {
+                var ResponseRespository = await _orderQueriesRepository.GetAllOrdersByTypeOccurrenceRepository(occurrence);
+
+                if (ResponseRespository.Status.Equals(ResponseStatusEnum.Error) ||
+                   ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError) ||
+                   ResponseRespository.Status.Equals(ResponseStatusEnum.NotFound))
+                {
+                    Response.Status = ResponseRespository.Status;
+                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
+                        Response.Message = "Ocorreu um erro inesperado.";
+                    else
+                        Response.Message = ResponseRespository.Message;
+
+                    return Response;
+                }
+
+                var OrdersDTO = _orderMapperInterface.OrderEntityListToDTOList(ResponseRespository.Content);
+
+                Response.Status = OrdersDTO.Status;
+                Response.Message = OrdersDTO.Message;
+                Response.Content = OrdersDTO.Content;
+                return Response;
+            }
+            catch (Exception ex)
+            {
+                //Log de erro
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = "Ocorreu um erro inesperado.";
+            }
+            return Response;
+
         }
 
-        public Task<ResponseModel<List<OrderDTO>>?> GetAllOrdersByUserEmail(UserEmailVO Email)
+        public async Task<ResponseModel<List<OrderDTO>>?> GetAllOrdersByUserEmail(UserEmailVO Email)
         {
-            throw new NotImplementedException();
+            ResponseModel<List<OrderDTO>?> Response = new ResponseModel<List<OrderDTO>>();
+            try
+            {
+                var ResponseRespository = await _orderQueriesRepository.GetAllOrdersByUserEmailRepository(Email);
+
+                if (ResponseRespository.Status.Equals(ResponseStatusEnum.Error) ||
+                   ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError) ||
+                   ResponseRespository.Status.Equals(ResponseStatusEnum.NotFound))
+                {
+                    Response.Status = ResponseRespository.Status;
+                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
+                        Response.Message = "Ocorreu um erro inesperado.";
+                    else
+                        Response.Message = ResponseRespository.Message;
+
+                    return Response;
+                }
+
+                var OrdersDTO = _orderMapperInterface.OrderEntityListToDTOList(ResponseRespository.Content);
+                
+                Response.Status = OrdersDTO.Status;
+                Response.Message = OrdersDTO.Message;
+                Response.Content = OrdersDTO.Content;
+            }
+            catch (Exception ex)
+            {
+                //Log
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = "Ocorreu um erro inesperado.";
+            }
+            return Response;
+
         }
 
-        public Task<ResponseModel<OrderDTO>?> GetOrderByNumber(OrderNumberVO orderNumber)
+        public async Task<ResponseModel<OrderDTO>?> GetOrderByNumber(OrderNumberVO orderNumber)
         {
-            throw new NotImplementedException();
+            ResponseModel<OrderDTO>? Response = new ResponseModel<OrderDTO>();
+            try
+            {
+                var ResponseRespository = await _orderQueriesRepository.GetOrderByNumberRepository(orderNumber);
+
+                if (ResponseRespository.Status.Equals(ResponseStatusEnum.Error) ||
+                   ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError) ||
+                   ResponseRespository.Status.Equals(ResponseStatusEnum.NotFound))
+                {
+                    Response.Status = ResponseRespository.Status;
+                    if (ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
+                        Response.Message = "Ocorreu um erro inesperado.";
+                    else
+                        Response.Message = ResponseRespository.Message;
+
+                    return Response;
+                }
+                var OrderDTO = _orderMapperInterface.OrderEntityToDTO(ResponseRespository.Content);
+                
+                Response.Status = OrderDTO.Status;
+                Response.Message = OrderDTO.Message;
+                Response.Content = OrderDTO.Content;
+            }
+            catch (Exception ex)
+            {
+                //Log de erro
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = "Ocorreu um erro inesperado.";
+            }
+            return Response;
+
         }
     }
 }

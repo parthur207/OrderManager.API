@@ -12,6 +12,7 @@ namespace OrderManager.Application.RepositoryInterface.Queries
 {
     public interface IOrderQueriesRepository
     {
+        Task<ResponseModel<List<OrderEntity>>?> GetAllOrdersByUserIdRepository(int userId);
         Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersRepository();
         Task<ResponseModel<List<OrderEntity>?>> GetAllOrdersByUserEmailRepository(UserEmailVO email);
         Task<ResponseModel<OrderEntity>?> GetOrderByNumberRepository(OrderNumberVO OrderNumber);

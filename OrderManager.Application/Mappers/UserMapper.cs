@@ -22,6 +22,46 @@ namespace OrderManager.Application.Mappers
             _orderMapperInterface = orderMapperInterface;
         }
 
+        public ResponseModel<List<UserAdmDTO>?> UserEntityListToDTOList(List<UserEntity> entityList)
+        {
+            ResponseModel<List<UserAdmDTO>?> Response = new ResponseModel<List<UserAdmDTO>?>();
+            try
+            {
+                if (entityList is null || !entityList.Any())
+                {
+                    Response.Message = "Erro. A lista de entidades de usuário não pode ser nula ou vazia.";
+                    Response.Status = ResponseStatusEnum.Error;
+                    return Response;
+                }
+
+                var userDTOListConverted = new List<UserAdmDTO>();
+
+                foreach (var entity in entityList)
+                {
+                    var userDTOConverted = new UserAdmDTO
+                    (
+                        entity.Name,
+                        entity.Email.Value,
+                        entity.Address,
+                        _orderMapperInterface.OrderEntityListToDTOList(entity.OrderList).Content,
+                        entity.CreatedAt,
+                        entity.Role
+                    );
+                    userDTOListConverted.Add(userDTOConverted);
+                }
+
+                Response.Content = userDTOListConverted;
+                Response.Status = ResponseStatusEnum.Success;
+            }
+            catch (Exception EX)
+            {
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Response.Message = $"Ocorreu um erro inesperado: " + EX.Message;
+                Debug.Assert(false, Response.Message);
+            }
+            return Response;
+        }
+
         public ResponseModel<UserEntity>? UserCreateModelToEntity(CreateUserModel UserModel)
         {
             ResponseModel<UserEntity>? Response= new ResponseModel<UserEntity>();

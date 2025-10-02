@@ -138,5 +138,34 @@ namespace OrderManager.Infrastructure.Repository.Queries
             }
             return Response;
         }
+
+        public async Task<ResponseModel<List<OrderEntity>>?> GetAllOrdersByUserIdRepository(int userId)
+        {
+            ResponseModel<List<OrderEntity>?> Response = new ResponseModel<List<OrderEntity>?>();
+            try
+            {
+                var AllOrdersByUserId = await _dbContextOM.OrderEntity
+                     .Include(x => x.Occurrences)
+                     .Include(x => x.User)
+                     .Where(x => x.User.Id == userId)
+                     .ToListAsync();
+
+                if (AllOrdersByUserId is null || !AllOrdersByUserId.Any())
+                {
+                    Response.Message = $"Nenhum pedido foi encontrado.";
+                    Response.Status = ResponseStatusEnum.NotFound;
+                    return Response;
+                }
+                Response.Content = AllOrdersByUserId;
+                Response.Status = ResponseStatusEnum.Success;
+            }
+            catch (Exception ex)
+            {
+                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
+                Response.Status = ResponseStatusEnum.CriticalError;
+                Debug.Assert(false, Response.Message);
+            }
+            return Response;
+        }
     }
 }

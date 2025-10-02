@@ -1,4 +1,6 @@
-﻿using OrderManager.Domain.Models.ReponsePattern;
+﻿using OrderManager.Domain.Enuns;
+using OrderManager.Domain.Models.ReponsePattern;
+using OrderManager.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,6 @@ namespace OrderManager.Application.Interfaces.IUseCase
 {
     public interface ICheckTimeOccurrenceOrderInterface
     {
-        SimpleResponseModel CheckTime(int OrderNumber);
+        Task<SimpleResponseModel> CheckTime(OrderNumberVO OrderNumber, ETypeOccurrenceEnum typeOccurrence);
     }
 }

@@ -12,38 +12,39 @@ using System.Threading.Tasks;
 
 namespace OrderManager.Application.Services.CommandsUserGeneric
 {
-    public class OrderCommandsUserGenericService : IOrderCommandsUserGenericInterface
+    public class UserCommandsUserGenericService : IUserCommandsUserGenericInterface
     {
-        private readonly IOrderCommandsRepository _orderCommandsRepository;
-        private readonly IOrderMapperInterface _orderMapperInterface;
-        public OrderCommandsUserGenericService(IOrderCommandsRepository orderCommandsRepository, 
-            IOrderMapperInterface orderMapperInterface)
+        private readonly IUserCommandsRepository _userCommandsUserRepository;
+        private readonly IUserMapperInterface _userMapperInterface;
+        public UserCommandsUserGenericService(IUserCommandsRepository userCommandsUserRepository, IUserMapperInterface userMapperInterface)
         {
-            _orderCommandsRepository = orderCommandsRepository;
-            _orderMapperInterface = orderMapperInterface;
+            _userCommandsUserRepository = userCommandsUserRepository;
+            _userMapperInterface= userMapperInterface;
         }
-        public async Task<SimpleResponseModel> CreateOrder(CreateOrderModel Model, int UserId)
+        public async Task<SimpleResponseModel> CreateUser(CreateUserModel Model)
         {
-            SimpleResponseModel Response = new SimpleResponseModel();
+            SimpleResponseModel Response = new SimpleResponseModel();    
             try
             {
                 if (Model is null)
                 {
+                    Response.Message = "Erro. O modelo de criação de usuário não pode ser nulo.";
                     Response.Status= ResponseStatusEnum.Error;
-                    Response.Message = "Erro. O modelo de criação de pedido não pode ser nulo.";
                     return Response;
                 }
 
-                var OrderEntityConverted = _orderMapperInterface.OrderCreateModelToEntity(Model, UserId);
+                var UserEntityConverted = _userMapperInterface.UserCreateModelToEntity(Model);
 
-                if (OrderEntityConverted.Status.Equals(ResponseStatusEnum.Error) 
-                    || OrderEntityConverted.Status.Equals(ResponseStatusEnum.CriticalError))
+                if (UserEntityConverted.Status.Equals(ResponseStatusEnum.Error) ||
+                    UserEntityConverted.Status.Equals(ResponseStatusEnum.CriticalError))
                 {
-                    Response.Status= OrderEntityConverted.Status;
-                    Response.Message = OrderEntityConverted.Message;
+                    Response.Status= UserEntityConverted.Status;
+                    Response.Message = UserEntityConverted.Message;
+                    return Response;
                 }
-                var ResponseRespository = await _orderCommandsRepository.CreateOrderRepository(OrderEntityConverted.Content);
-                
+
+                var ResponseRespository = await _userCommandsUserRepository.CreateUserRepository(UserEntityConverted.Content);
+
                 if (ResponseRespository.Status.Equals(ResponseStatusEnum.Error) ||
                    ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))
                 {
@@ -60,8 +61,8 @@ namespace OrderManager.Application.Services.CommandsUserGeneric
             }
             catch (Exception ex)
             {
-                Response.Status= ResponseStatusEnum.CriticalError; 
-                Response.Message= "Ocorreu um erro inesperado: "+ex.Message;
+                Response.Message = "Ocorreu um erro inesperado: "+ex.Message;
+                Response.Status= ResponseStatusEnum.CriticalError;
             }
             return Response;
         }

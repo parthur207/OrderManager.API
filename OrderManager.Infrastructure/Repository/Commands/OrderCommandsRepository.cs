@@ -25,7 +25,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
             _dbContextOM=dbContextOM;
         }
 
-        public async Task<SimpleResponseModel> CreateOrder(OrderEntity Entity)
+        public async Task<SimpleResponseModel> CreateOrderRepository(OrderEntity Entity)
         {
             SimpleResponseModel Response=new SimpleResponseModel();
 
@@ -53,9 +53,6 @@ namespace OrderManager.Infrastructure.Repository.Commands
         }
 
        
-        public Task<SimpleResponseModel> UpdateStatusOrder(OrderEntity Entity)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

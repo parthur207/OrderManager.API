@@ -10,6 +10,6 @@ namespace OrderManager.Application.RepositoryInterface.Commands
 {
     public interface IOrderCommandsRepository
     {
-        Task<SimpleResponseModel> CreateOrder(OrderEntity Entity);
+        Task<SimpleResponseModel> CreateOrderRepository(OrderEntity Entity);
     }
 }

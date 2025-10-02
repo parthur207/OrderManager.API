@@ -1,6 +1,8 @@
 ﻿using OrderManager.Application.Interfaces.IUseCase;
 using OrderManager.Application.RepositoryInterface.UseCase;
+using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models.ReponsePattern;
+using OrderManager.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +21,38 @@ namespace OrderManager.Application.UseCases
         {
             _checkTimeOccurrenceOrderRespository = checkTimeOccurrenceOrderRespository;
         }
-        public SimpleResponseModel CheckTime(int OrderNumber)
+        public async Task<SimpleResponseModel> CheckTime(OrderNumberVO OrderNumber, ETypeOccurrenceEnum typeOccurrence)
         {
-            throw new NotImplementedException();
+            SimpleResponseModel Response = new SimpleResponseModel();
+            try
+            {
+                if (OrderNumber is null)
+                {
+                    Response.Status = ResponseStatusEnum.Error;
+                    Response.Message = "O número do pedido é nulo.";
+                    return Response;
+                }
+                
+             
+                var ResponseRepository = await _checkTimeOccurrenceOrderRespository.CheckTimeRepository(OrderNumber, typeOccurrence);
+
+                if (ResponseRepository.Status.Equals(ResponseStatusEnum.Error)
+                    || ResponseRepository.Status.Equals(ResponseStatusEnum.CriticalError))
+                {
+                    Response.Status= ResponseRepository.Status;
+                    if(ResponseRepository.Status.Equals(ResponseStatusEnum.CriticalError))
+                        Response.Message = "Ocorreu um erro inesperado.";
+                    else
+                        Response.Message = ResponseRepository.Message;
+                    return Response;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Status = Domain.Enuns.ResponseStatusEnum.Error;
+                Response.Message = ex.Message;
+            }
+            return Response;
         }
     }
 }
