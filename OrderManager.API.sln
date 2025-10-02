@@ -18,6 +18,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderManager.Infrastructure
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{718FB61D-B58B-4E14-95D1-8A1F2B7F8EFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManager.Domain.TestsU", "OrderManager.Domain.TestsU\OrderManager.Domain.TestsU.csproj", "{10DCE321-89C4-4079-A926-26AA8D4CCE26}"
+	ProjectSection(ProjectDependencies) = postProject
+		{57FBADEF-4C7E-4951-8EB5-CA2C42177B56} = {57FBADEF-4C7E-4951-8EB5-CA2C42177B56}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,9 +45,16 @@ Global
 		{F0B6A7A2-FA6C-467D-9EA4-B55B26F6549A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0B6A7A2-FA6C-467D-9EA4-B55B26F6549A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0B6A7A2-FA6C-467D-9EA4-B55B26F6549A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10DCE321-89C4-4079-A926-26AA8D4CCE26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10DCE321-89C4-4079-A926-26AA8D4CCE26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10DCE321-89C4-4079-A926-26AA8D4CCE26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10DCE321-89C4-4079-A926-26AA8D4CCE26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{10DCE321-89C4-4079-A926-26AA8D4CCE26} = {718FB61D-B58B-4E14-95D1-8A1F2B7F8EFB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F5357D77-C2E5-4577-B115-54E42C805A1A}
