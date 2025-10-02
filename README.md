@@ -4,5 +4,4 @@
 
 ### Acesso administrador (BackDoor):
 
-email: admin@teste.com
-senha: teste123
+email: admin@teste.com | senha: teste123
