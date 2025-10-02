@@ -44,9 +44,8 @@ namespace OrderManager.Application.Mappers
             }
             catch (Exception ex)
             {
-                Response.Status = ResponseStatusEnum.CriticalError;
-                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
-                Debug.Assert(false, Response.Message);
+                Response.Status = ResponseStatusEnum.Error;
+                Response.Message = ex.Message;
             }
             return Response;
         }
@@ -64,7 +63,7 @@ namespace OrderManager.Application.Mappers
                 }
                 var OccurrenceEntityConverted = new OccurrenceEntity
                     (
-                        new OrderNumberVO(Model.OrderNumber),
+                       Model.OrderNumber,
                         Model.OccurrenceId
                     );
 
@@ -73,9 +72,8 @@ namespace OrderManager.Application.Mappers
             }
             catch (Exception ex)
             {
-                Response.Status = ResponseStatusEnum.CriticalError;
-                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
-                Debug.Assert(false, Response.Message);
+                Response.Status = ResponseStatusEnum.Error;
+                Response.Message = ex.Message;
             }
             return Response;
         }
@@ -95,7 +93,7 @@ namespace OrderManager.Application.Mappers
 
                 var OccurrenceEntityConverted = new OccurrenceEntity
                     (
-                        new OrderNumberVO(OccurrencesModel.OrderNumber),
+                       OccurrencesModel.OrderNumber,
                         OccurrencesModel.ETypeOccurrence
                     );
 
@@ -104,9 +102,8 @@ namespace OrderManager.Application.Mappers
             }
             catch (Exception ex)
             {
-                Response.Status = ResponseStatusEnum.CriticalError;
-                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
-                Debug.Assert(false, Response.Message);
+                Response.Status = ResponseStatusEnum.Error;
+                Response.Message = ex.Message;
             }
             return Response;
         }

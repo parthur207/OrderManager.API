@@ -17,7 +17,7 @@ namespace OrderManager.Application.Interfaces.IMapper
         ResponseModel<List<OrderDTO>>? OrderEntityListToDTOList(List<OrderEntity> OrderEntityList);
 
         //Model=>Entity
-        ResponseModel<OrderEntity> OrderCreateModelToEntity(CreateOrderModel OrderModel, int userId);
+        ResponseModel<OrderEntity> OrderCreateModelToEntity(int GeneratedNumber, int userId);
 
     }
 }

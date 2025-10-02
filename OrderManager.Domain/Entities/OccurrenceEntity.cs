@@ -10,7 +10,7 @@ namespace OrderManager.Domain.Entities
 {
     public class OccurrenceEntity : BaseEntity
     {
-        public OccurrenceEntity(OrderNumberVO orderNumber, ETypeOccurrenceEnum typeOccurrence) 
+        public OccurrenceEntity(int orderNumber, ETypeOccurrenceEnum typeOccurrence) 
         {
             OrderNumber = orderNumber;
             TypeOccurrence=typeOccurrence;
@@ -18,7 +18,7 @@ namespace OrderManager.Domain.Entities
             IndFinishing = false;
         }
 
-        public OccurrenceEntity(OrderNumberVO orderNumber, int OccurrenceId)
+        public OccurrenceEntity(int orderNumber, int OccurrenceId)
         {
             OrderNumber = orderNumber;
             Id = OccurrenceId;
@@ -27,7 +27,7 @@ namespace OrderManager.Domain.Entities
         public ETypeOccurrenceEnum TypeOccurrence { get; private set; }
         public DateTime TimeOccurrence { get; private set; }
         public bool IndFinishing { get; private set; }
-        public OrderNumberVO OrderNumber { get; private set; }//chave estangeira
+        public int OrderNumber { get; private set; }//chave estangeira
         public OrderEntity Order { get; private set; }
 
         public void SetOccurrenceToFinishing()//métdo de domínio

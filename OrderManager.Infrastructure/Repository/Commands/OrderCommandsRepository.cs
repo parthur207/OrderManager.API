@@ -31,9 +31,9 @@ namespace OrderManager.Infrastructure.Repository.Commands
 
             try
             {
-                if (await _dbContextOM.OrderEntity.AnyAsync(x=>x.OrderNumber==Entity.OrderNumber))
+                if (await _dbContextOM.OrderEntity.AnyAsync(x=>x.OrderNumber.Value==Entity.OrderNumber.Value))
                 {
-                    Response.Message = $"Erro. Já existe um pedido com o número informado: {Entity.OrderNumber}";
+                    Response.Message = $"Erro. Já existe um pedido com o número informado: {Entity.OrderNumber.Value}";
                     Response.Status = ResponseStatusEnum.Error;
                     return Response;
                 }
@@ -41,13 +41,12 @@ namespace OrderManager.Infrastructure.Repository.Commands
                 await _dbContextOM.SaveChangesAsync();
 
                 Response.Status=ResponseStatusEnum.Success;
-                Response.Message = $"Pedido criado com sucesso!\nDetalhes: {Entity.OrderNumber} | {Entity.TimeOrder}";
+                Response.Message = $"Pedido criado com sucesso!\nDetalhes: {Entity.OrderNumber.Value} | {Entity.TimeOrder}";
             }
             catch(Exception ex)
             {
                 Response.Status= ResponseStatusEnum.CriticalError;
                 Response.Message="Ocorreu um erro inesperado: "+ex.Message;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }

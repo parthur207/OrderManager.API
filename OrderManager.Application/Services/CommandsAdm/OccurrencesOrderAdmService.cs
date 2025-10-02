@@ -94,7 +94,7 @@ namespace OrderManager.Application.Services.CommandsAdm
                         Response.Message = OccurrenceEntity.Message; 
                 }
                 var ResponseRespository= await _occurrenceOrderCommandsRepository.DeleteOccurrenceByOrderNumberRepository(
-                    OccurrenceEntity.Content.OrderNumber, OccurrenceEntity.Content.Id);
+                    new OrderNumberVO(OccurrenceEntity.Content.OrderNumber), OccurrenceEntity.Content.Id);
 
                 if (ResponseRespository.Status.Equals(ResponseStatusEnum.Error) ||
                  ResponseRespository.Status.Equals(ResponseStatusEnum.CriticalError))

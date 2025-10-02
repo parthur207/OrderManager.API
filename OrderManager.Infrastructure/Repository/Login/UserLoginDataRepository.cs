@@ -45,7 +45,6 @@ namespace OrderManager.Infrastructure.Repository.Login
             {
                 Response.Status=ResponseStatusEnum.CriticalError;
                 Response.Message="Ocorreu um erro inesperado: " + ex.Message;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }

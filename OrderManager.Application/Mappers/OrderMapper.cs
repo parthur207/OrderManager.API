@@ -23,31 +23,37 @@ namespace OrderManager.Application.Mappers
         {
             _occurrenceMapperInterface = occurrenceMapperInterface;
         }
-        public ResponseModel<OrderEntity> OrderCreateModelToEntity(CreateOrderModel OrderModel, int userId)
+        public ResponseModel<OrderEntity> OrderCreateModelToEntity(int GeneratedNumber, int userId)
         {
             ResponseModel<OrderEntity> Response= new ResponseModel<OrderEntity>();
             try
             {
-                if (OrderModel is null)
+                if (GeneratedNumber<1000)
                 {
-                    Response.Message = "O modelo de pedido não pode ser nulo.";
+                    Response.Message = "Erro. O número do pedido deve ter pelo menos 4 digitos.";
                     Response.Status = ResponseStatusEnum.Error;
                     return Response;
                 }
                 var orderEntityConverted = new OrderEntity
                 (
-                    new OrderNumberVO(OrderModel.OrderNumber),
+                    new OrderNumberVO(GeneratedNumber),
                     userId
                 );
+
+                if (orderEntityConverted is null)
+                {
+                    Response.Status= ResponseStatusEnum.Error;
+                    Response.Message = "O pedido deve ter exatamente 4 digitos.";
+                    return Response;
+                }
 
                 Response.Content = orderEntityConverted;
                 Response.Status = ResponseStatusEnum.Success;
             }
             catch (Exception ex)
             {
-                Response.Status= ResponseStatusEnum.CriticalError;
-                Response.Message ="Ocorreu um erro inesperado: "+ex.Message;
-                Debug.Assert(false, Response.Message);
+                Response.Status= ResponseStatusEnum.Error;
+                Response.Message =ex.Message;
             }
             return Response;
         }
@@ -82,10 +88,8 @@ namespace OrderManager.Application.Mappers
             }
             catch (Exception ex)
             {
-                Response.Status = ResponseStatusEnum.CriticalError;
-                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
-                Debug.Assert(false, Response.Message);
-            }
+                Response.Status = ResponseStatusEnum.Error;
+                Response.Message =  ex.Message;            }
             return Response;
         }
 
@@ -121,9 +125,8 @@ namespace OrderManager.Application.Mappers
             }
             catch (Exception ex)
             {
-                Response.Status = ResponseStatusEnum.CriticalError;
-                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
-                Debug.Assert(false, Response.Message);
+                Response.Status = ResponseStatusEnum.Error;
+                Response.Message =  ex.Message;
             }
             return Response;
         }

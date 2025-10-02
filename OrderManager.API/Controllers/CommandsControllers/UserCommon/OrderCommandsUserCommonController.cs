@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using OrderManager.API.Controllers.QueriesControllers.Adm;
 using OrderManager.Application.Interfaces.IServices.ICommandsAdm;
 using OrderManager.Application.Interfaces.IServices.ICommandsUserCommon;
+using OrderManager.Application.RepositoryInterface.UseCase;
 using OrderManager.Domain.Enuns;
 using OrderManager.Domain.Models;
 using OrderManager.Domain.ValueObjects;
 using System.Security.Claims;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace OrderManager.API.Controllers.CommandsControllers.UserCommon
 {
@@ -17,11 +19,13 @@ namespace OrderManager.API.Controllers.CommandsControllers.UserCommon
         private readonly ILogger<OrderCommandsUserCommonController> _logger;
 
         private readonly IOrderCommandsUserCommonInterface _orderCommandsUserCommonInterface;
+        private readonly IOrderNumberGeneratorInterface _orderNumberGeneratorInterface;
         public OrderCommandsUserCommonController(ILogger<OrderCommandsUserCommonController> logger,
-        IOrderCommandsUserCommonInterface orderCommandsUserCommonInterface)
+        IOrderCommandsUserCommonInterface orderCommandsUserCommonInterface, IOrderNumberGeneratorInterface orderNumberGeneratorInterface)
         {
             _logger = logger;
             _orderCommandsUserCommonInterface = orderCommandsUserCommonInterface;
+            _orderNumberGeneratorInterface = orderNumberGeneratorInterface;
         }
         private string GetCurrentEndpoint()
         {
@@ -30,11 +34,12 @@ namespace OrderManager.API.Controllers.CommandsControllers.UserCommon
 
         [Authorize(Roles =nameof(RoleEnum.Common))]
         [HttpPost("createOrder")]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderModel Model)
+        public async Task<IActionResult> CreateOrder()
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var GeneratedNumber = _orderNumberGeneratorInterface.GeneratorNumber();
 
-            var ResponseService = await _orderCommandsUserCommonInterface.CreateOrder(Model, userId);
+            var ResponseService = await _orderCommandsUserCommonInterface.CreateOrder(GeneratedNumber, userId);
 
             if (ResponseService.Status.Equals(ResponseStatusEnum.NotFound))
             {
@@ -51,7 +56,7 @@ namespace OrderManager.API.Controllers.CommandsControllers.UserCommon
                 _logger.LogCritical($"EndPoint: {GetCurrentEndpoint()} | {ResponseService.Message}");
                 return StatusCode(500, "Ocorreu um erro inesperado.");
             }
-            _logger.LogInformation($"Ym novo pedido foi criado. Número do pedido: {Model.OrderNumber} | Id do usuário: {Model.UserId}");
+            _logger.LogInformation($"Ym novo pedido foi criado. Número do pedido: {GeneratedNumber} | Id do usuário: {userId}");
             return Ok(ResponseService);
         }
     }

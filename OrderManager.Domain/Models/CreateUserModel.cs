@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -10,19 +11,19 @@ namespace OrderManager.Domain.Models
     public class CreateUserModel
     {
         [Required(ErrorMessage ="É obrigatório o informe de seu nome.")]
-        public string Name { get; private set; }
+        public string Name { get;  set; }
         
 
         [Required(ErrorMessage = "É obrigatório o informe de seu email.")]
         [EmailAddress(ErrorMessage = "E-mail em formato inválido.")]
-        public string Email { get; private set; }
+        public string Email { get;  set; }
 
 
         [Required(ErrorMessage = "É obrigatório o informe de uma senha.")]
-        public string Password { get; private set; }
+        public string Password { get;  set; }
 
 
         [Required(ErrorMessage = "É obrigatório o informe de seu endereço.")]
-        public string Address { get; private set; }
+        public string Address { get;  set; }
     }
 }

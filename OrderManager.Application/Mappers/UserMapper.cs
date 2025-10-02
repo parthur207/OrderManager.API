@@ -55,9 +55,8 @@ namespace OrderManager.Application.Mappers
             }
             catch (Exception EX)
             {
-                Response.Status = ResponseStatusEnum.CriticalError;
-                Response.Message = $"Ocorreu um erro inesperado: " + EX.Message;
-                Debug.Assert(false, Response.Message);
+                Response.Status = ResponseStatusEnum.Error;
+                Response.Message = EX.Message;
             }
             return Response;
         }
@@ -87,9 +86,8 @@ namespace OrderManager.Application.Mappers
             }
             catch (Exception EX)
             {
-                Response.Status = ResponseStatusEnum.CriticalError;
-                Response.Message = $"Ocorreu um erro inesperado: "+EX.Message;
-                Debug.Assert(false, Response.Message);
+                Response.Status = ResponseStatusEnum.Error;
+                Response.Message = EX.Message;
             }
             return Response;
         }
@@ -117,9 +115,8 @@ namespace OrderManager.Application.Mappers
             }
             catch (Exception EX)
             {
-                Response.Status = ResponseStatusEnum.CriticalError;
-                Response.Message = $"Ocorreu um erro inesperado: " + EX.Message;
-                Debug.Assert(false, Response.Message);
+                Response.Status = ResponseStatusEnum.Error;
+                Response.Message = EX.Message;
             }
             return Response;
         }
@@ -152,9 +149,8 @@ namespace OrderManager.Application.Mappers
             }
             catch (Exception EX)
             {
-                Response.Status = ResponseStatusEnum.CriticalError;
-                Response.Message = $"Ocorreu um erro inesperado: " + EX.Message;
-                Debug.Assert(false, Response.Message);
+                Response.Status = ResponseStatusEnum.Error;
+                Response.Message = EX.Message;
             }
             return Response;
         }

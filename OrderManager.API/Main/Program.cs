@@ -90,11 +90,12 @@ namespace OrderManager.API.Main
                 });
             });
 
-            builder.Services.AddDbContext<DbContextOrderManager>(options =>
-            options.UseInMemoryDatabase("DbContextInMemory")); //Utilização do Banco em memória
+            builder.Services.AddDbContext<DbContextOrderManager>(options =>options
+                .UseInMemoryDatabase("DbContextInMemory")
+                .EnableSensitiveDataLogging()); //Utilização do Banco em memória
 
             #region Serviços - Injeções de dependencia (Tempo de vida)
-            
+
             //Mappers
             builder.Services.AddTransient<IOrderMapperInterface, OrderMapper>();
             builder.Services.AddTransient<IUserMapperInterface, UserMapper>();
@@ -109,6 +110,8 @@ namespace OrderManager.API.Main
             builder.Services.AddScoped<IOrderQueriesAdmInterface, OrderQueriesAdmService>();
             builder.Services.AddScoped<IUserQueriesAdmInterface, UserQueriesAdmService>();
             builder.Services.AddScoped<IOrderQueriesUserCommonInterface, OrderQueriesUserCommonService>();
+            builder.Services.AddScoped<IOrderNumberGeneratorInterface, OrderNumberGeneratorService>();
+
 
             //Service UseCase
             builder.Services.AddTransient<ICheckTimeOccurrenceOrderInterface, CheckTimeOccurrenceOrderService>();

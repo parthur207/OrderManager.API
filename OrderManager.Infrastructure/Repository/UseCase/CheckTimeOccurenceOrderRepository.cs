@@ -54,7 +54,6 @@ namespace OrderManager.Infrastructure.Repository.UseCase
             {
                 Response.Status = ResponseStatusEnum.CriticalError;
                 Response.Message = "Erro ao verificar o tempo de ocorrência do pedido: " + ex.Message;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }

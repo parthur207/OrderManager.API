@@ -24,14 +24,13 @@ namespace OrderManager.Infrastructure.Repository.Commands
             try
             {
                 var Order = await _dbContextOM.OrderEntity.Include(x => x.Occurrences)
-                    .FirstOrDefaultAsync(x => x.OrderNumber.Value == occurrenceEntity.OrderNumber.Value);
+                    .FirstOrDefaultAsync(x => x.OrderNumber.Value == occurrenceEntity.OrderNumber);
 
-                int orderNumber = occurrenceEntity.OrderNumber.Value;
 
                 if (Order is null)//verificando se o pedido com o numero informado existe
                 {
                     Response.Status = ResponseStatusEnum.NotFound;
-                    Response.Message = $"Não existe um pedido com o número informado: {orderNumber}";
+                    Response.Message = $"Não existe um pedido com o número informado: {occurrenceEntity.OrderNumber}";
                     return Response;
                 }
 
@@ -49,7 +48,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
                         await _dbContextOM.SaveChangesAsync();
 
                         Response.Status = ResponseStatusEnum.Success;
-                        Response.Message = $"Uma nova ocorrência foi inclusa ao pedido!\n\nDetalhes:\nNumero do pedido: {orderNumber} | Tipo de ocorrência:{occurrenceEntity.TypeOccurrence} " +
+                        Response.Message = $"Uma nova ocorrência foi inclusa ao pedido!\n\nDetalhes:\nNumero do pedido: {occurrenceEntity.OrderNumber} | Tipo de ocorrência:{occurrenceEntity.TypeOccurrence.ToString()} " +
                             $"| Horário de inserção da ocorrência: {occurrenceEntity.TimeOccurrence} | Finalizadora: {occurrenceEntity.IndFinishing}";
                     }
                     else
@@ -66,7 +65,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
                             await _dbContextOM.SaveChangesAsync();
 
                             Response.Status = ResponseStatusEnum.Success;
-                            Response.Message = $"Uma nova ocorrência foi inclusa ao pedido!\n\nDetalhes\nNumero do pedido: {orderNumber} | Tipo de ocorrência:{occurrenceEntity.TypeOccurrence} " +
+                            Response.Message = $"Uma nova ocorrência foi inclusa ao pedido!\n\nDetalhes\nNumero do pedido: {occurrenceEntity.OrderNumber} | Tipo de ocorrência:{occurrenceEntity.TypeOccurrence.ToString()} " +
                                 $"| Horário de inserção da ocorrência: {occurrenceEntity.TimeOccurrence} | Finalizadora: {occurrenceEntity.IndFinishing}";
                         }
                     }
@@ -74,14 +73,13 @@ namespace OrderManager.Infrastructure.Repository.Commands
                 else
                 {
                     Response.Status = ResponseStatusEnum.Error;
-                    Response.Message = $"Erro. O pedido '{orderNumber}' já foi entregue, não é possível adicionar novas ocorrências.";
+                    Response.Message = $"Erro. O pedido '{occurrenceEntity.OrderNumber}' já foi entregue, não é possível adicionar novas ocorrências.";
                 }
             }
             catch (Exception ex)
             {
                 Response.Status = ResponseStatusEnum.CriticalError;
                 Response.Message = "Ocorreu um erro inesperaod: " + ex.Message;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }
@@ -113,7 +111,7 @@ namespace OrderManager.Infrastructure.Repository.Commands
                 if (Occurrence is null)//Verifica se a ocorrência passada existe no pedido informado
                 {
                     Response.Status = ResponseStatusEnum.NotFound;
-                    Response.Message = $"Não foi encontrada nenhuma ocorrência vinculada ao pedido n° '{Order.OrderNumber}' com o ID informado: {OccurrenceId}";
+                    Response.Message = $"Não foi encontrada nenhuma ocorrência vinculada ao pedido n° '{Order.OrderNumber.Value}' com o ID informado: {OccurrenceId}";
                     return Response;
                 }
 
@@ -122,13 +120,12 @@ namespace OrderManager.Infrastructure.Repository.Commands
                 await _dbContextOM.SaveChangesAsync();
 
                 Response.Status = ResponseStatusEnum.Success;
-                Response.Message = $"A ocorrência com ID '{OccurrenceId}' foi removida do pedido n° '{Order.OrderNumber}' com sucesso.";
+                Response.Message = $"A ocorrência com ID '{OccurrenceId}' foi removida do pedido n° '{Order.OrderNumber.Value}' com sucesso.";
             }
             catch(Exception ex)
             {
                 Response.Status= ResponseStatusEnum.CriticalError;
                 Response.Message="Ocorreu um erro inesperado: "+ex.Message;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }

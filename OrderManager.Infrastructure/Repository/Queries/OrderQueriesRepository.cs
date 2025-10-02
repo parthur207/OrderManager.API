@@ -47,7 +47,6 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 Response.Message="Ocorreu um erro inesperado: " + ex.Message;
                 Response.Status=ResponseStatusEnum.CriticalError;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }
@@ -76,7 +75,6 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
                 Response.Status = ResponseStatusEnum.CriticalError;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }
@@ -94,7 +92,7 @@ namespace OrderManager.Infrastructure.Repository.Queries
                 if (OrderById is null)
                 {
                     Response.Status=ResponseStatusEnum.NotFound;
-                    Response.Message = $"Nenhum pedido foi encontrado com o número informado: {OrderNumber}";
+                    Response.Message = $"Nenhum pedido foi encontrado com o número informado: {OrderNumber.Value}";
                     return Response;
                 }
 
@@ -105,7 +103,6 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 Response.Message="Ocorreu um erro inesperado: " + ex.Message;
                 Response.Status=ResponseStatusEnum.CriticalError;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }
@@ -134,7 +131,6 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
                 Response.Status = ResponseStatusEnum.CriticalError;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }
@@ -163,7 +159,6 @@ namespace OrderManager.Infrastructure.Repository.Queries
             {
                 Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
                 Response.Status = ResponseStatusEnum.CriticalError;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }

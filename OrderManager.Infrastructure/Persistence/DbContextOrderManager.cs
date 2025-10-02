@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderManager.Infrastructure.Persistence
 {
@@ -35,7 +30,7 @@ namespace OrderManager.Infrastructure.Persistence
             modelBuilder.Entity<OrderEntity>()
                 .HasMany(o => o.Occurrences)
                 .WithOne(oc => oc.Order)
-                .HasForeignKey("OrderNumber") // FK deve ser primitivo
+                .HasForeignKey(oc => oc.OrderNumber) // FK int
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
@@ -92,16 +87,10 @@ namespace OrderManager.Infrastructure.Persistence
                 entity.Property(oc => oc.TypeOccurrence)
                       .IsRequired();
 
-                // Mapear o OrderNumberVO para int
                 entity.Property(oc => oc.OrderNumber)
-                      .HasConversion(
-                          v => v.Value,
-                          v => new OrderNumberVO(v))
-                      .HasColumnName("OrderNumber")
                       .IsRequired();
             });
             #endregion
         }
     }
 }
-

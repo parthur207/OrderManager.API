@@ -74,7 +74,6 @@ namespace OrderManager.Infrastructure.Repository.Commands
             {
                 Response.Status = ResponseStatusEnum.CriticalError;
                 Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
-                Debug.Assert(false, Response.Message);
             }
 
             return Response;
@@ -101,8 +100,6 @@ namespace OrderManager.Infrastructure.Repository.Commands
             {
                 Response.Status = ResponseStatusEnum.CriticalError;
                 Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
-                Debug.Assert(false, Response.Message);
-
             }
             return Response;
         }
@@ -138,7 +135,6 @@ namespace OrderManager.Infrastructure.Repository.Commands
             {
                 Response.Status = ResponseStatusEnum.CriticalError;
                 Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }
@@ -183,7 +179,6 @@ namespace OrderManager.Infrastructure.Repository.Commands
             {
                 Response.Status= ResponseStatusEnum.CriticalError;
                 Response.Message="Ocorreu um erro inesperado: " + ex.Message;
-                Debug.Assert(false, Response.Message);
             }
             return Response;
         }

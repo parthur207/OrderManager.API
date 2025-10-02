@@ -10,6 +10,6 @@ namespace OrderManager.Application.Interfaces.IServices.ICommandsUserCommon
 {
     public interface IOrderCommandsUserCommonInterface
     { 
-        Task<SimpleResponseModel> CreateOrder(CreateOrderModel Model, int UserId);
+        Task<SimpleResponseModel> CreateOrder(int GeneratedNumber, int UserId);
     }
 }

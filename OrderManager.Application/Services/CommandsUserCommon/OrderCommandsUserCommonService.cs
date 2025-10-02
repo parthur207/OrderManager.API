@@ -17,19 +17,19 @@ namespace OrderManager.Application.Services.CommandsUserGeneric
             _orderCommandsRepository = orderCommandsRepository;
             _orderMapperInterface = orderMapperInterface;
         }
-        public async Task<SimpleResponseModel> CreateOrder(CreateOrderModel Model, int UserId)
+        public async Task<SimpleResponseModel> CreateOrder(int GeneratedNumber, int UserId)
         {
             SimpleResponseModel Response = new SimpleResponseModel();
             try
             {
-                if (Model is null)
+                if (GeneratedNumber<1000)
                 {
                     Response.Status= ResponseStatusEnum.Error;
-                    Response.Message = "Erro. O modelo de criação de pedido não pode ser nulo.";
+                    Response.Message = "Erro. O modelo de criação de pedido não pode ter mais de 4 digitos.";
                     return Response;
                 }
 
-                var OrderEntityConverted = _orderMapperInterface.OrderCreateModelToEntity(Model, UserId);
+                var OrderEntityConverted = _orderMapperInterface.OrderCreateModelToEntity(GeneratedNumber, UserId);
 
                 if (OrderEntityConverted.Status.Equals(ResponseStatusEnum.Error) 
                     || OrderEntityConverted.Status.Equals(ResponseStatusEnum.CriticalError))
