@@ -9,10 +9,10 @@ namespace OrderManager.API.Controllers.QueriesControllers.Adm
     [Route("api/queriesUser/admin")]
     public class UserQueriesAdmController : Controller
     {
-        private readonly ILogger<OrderQueriesAdmController> _logger;
+        private readonly ILogger<UserQueriesAdmController> _logger;
 
         private readonly IOrderQueriesAdmInterface _orderQueriesAdmInterface;
-        public UserQueriesAdmController(ILogger<OrderQueriesAdmController> logger,
+        public UserQueriesAdmController(ILogger<UserQueriesAdmController> logger,
             IOrderQueriesAdmInterface orderQueriesAdmInterface)
         {
             _logger = logger;
