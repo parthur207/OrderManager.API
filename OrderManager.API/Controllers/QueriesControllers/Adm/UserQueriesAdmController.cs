@@ -78,7 +78,7 @@ namespace OrderManager.API.Controllers.QueriesControllers.Adm
         }
 
         [Authorize(Roles = nameof(RoleEnum.Adm))]
-        [HttpGet("")]
+        [HttpGet("userByOrder/{OrderNumber}")]
         public async Task<IActionResult> GetUserByOrderNumber([FromRoute] int OrderNumber)
         {
             var response = await _userQueriesAdmInterface.GetUserByOrderNumber(new OrderNumberVO(OrderNumber));
