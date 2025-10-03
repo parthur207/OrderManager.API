@@ -6,7 +6,7 @@
 
 email: admin@teste.com | senha: teste123
 
-## Funcionalidade por papel de usuário
+## Funcionalidade por papel de usuário:
 
 ### Administrador - Querys
 
