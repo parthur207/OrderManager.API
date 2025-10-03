@@ -28,7 +28,7 @@ namespace OrderManager.Domain.Entities
             Email = email;
             Password = password;
             Address = address;
-            OrderList = [];
+            OrderList = new List<OrderEntity>();
             CreatedAt=DateTime.Now;
             Role = RoleEnum.Common;//O processo de cadastro ja atribuí o papel como 'comum' por padrao
         }

@@ -41,7 +41,7 @@ namespace OrderManager.Tests.Domain.Entities
         {
             // Arrange
             var order = new OrderEntity(new OrderNumberVO(9999), 2);
-            var occurrence = new OccurrenceEntity(9999, ETypeOccurrenceEnum.ClienteAusente);
+            var occurrence = new OccurrenceEntity(new OrderNumberVO(9999), ETypeOccurrenceEnum.ClienteAusente);
 
             // Act
             order.AddOccurrenceToOrder(occurrence);
@@ -58,7 +58,7 @@ namespace OrderManager.Tests.Domain.Entities
         {
             // Arrange
             var order = new OrderEntity(new OrderNumberVO(8888), 3);
-            var occurrence = new OccurrenceEntity(8888, ETypeOccurrenceEnum.AvariaNoProduto);
+            var occurrence = new OccurrenceEntity(new OrderNumberVO(1234), ETypeOccurrenceEnum.AvariaNoProduto);
             order.AddOccurrenceToOrder(occurrence);
 
             // Act

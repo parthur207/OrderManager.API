@@ -12,7 +12,7 @@ namespace OrderManager.Domain.ValueObjects
 
         public OrderNumberVO(int orderNumber)
         {
-            if (orderNumber < 1000)
+            if (orderNumber < 1000 || orderNumber>9999)
                 throw new ArgumentException("Erro. O número do pedido deve ter pelo menos 4 dígitos.");
 
             if (orderNumber <= 0)

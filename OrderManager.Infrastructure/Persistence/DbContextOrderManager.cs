@@ -19,18 +19,18 @@ namespace OrderManager.Infrastructure.Persistence
             base.OnModelCreating(modelBuilder);
 
             #region Relacionamento entre as entidades
-            // 1:n | User -> Orders
+            
             modelBuilder.Entity<UserEntity>()
                 .HasMany(u => u.OrderList)
                 .WithOne(o => o.User)
                 .HasForeignKey(o => o.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // 1:n | Order -> Occurrences
             modelBuilder.Entity<OrderEntity>()
                 .HasMany(o => o.Occurrences)
                 .WithOne(oc => oc.Order)
-                .HasForeignKey(oc => oc.Id) // FK int
+                .HasForeignKey(oc => oc.OrderNumber)
+                .HasPrincipalKey(o => o.OrderNumber)
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
@@ -67,12 +67,17 @@ namespace OrderManager.Infrastructure.Persistence
             {
                 entity.HasKey(o => o.Id);
 
+                entity.Property(o => o.Id)
+                      .ValueGeneratedOnAdd();
+
                 entity.Property(o => o.OrderNumber)
                       .HasConversion(
                           v => v.Value,
                           v => new OrderNumberVO(v))
                       .HasColumnName("OrderNumber")
                       .IsRequired();
+
+                entity.HasAlternateKey(o => o.OrderNumber); 
 
                 entity.Property(o => o.TimeOrder)
                       .IsRequired();
@@ -84,13 +89,17 @@ namespace OrderManager.Infrastructure.Persistence
             {
                 entity.HasKey(oc => oc.Id);
 
-                entity.Property(oc => oc.TypeOccurrence)
-                      .IsRequired();
+                entity.Property(oc => oc.Id)
+                      .ValueGeneratedOnAdd();
 
                 entity.Property(oc => oc.OrderNumber)
+                      .HasConversion(
+                          v => v.Value,
+                          v => new OrderNumberVO(v))
                       .IsRequired();
             });
             #endregion
         }
+
     }
 }

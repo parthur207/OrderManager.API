@@ -26,32 +26,28 @@ namespace OrderManager.Infrastructure.Repository.UseCase
 
         public async Task<SimpleResponseModel> CheckTimeRepository(int orderNumber, ETypeOccurrenceEnum typeOccurrence)
         {
-            SimpleResponseModel Response = new SimpleResponseModel();
+            var Response = new SimpleResponseModel();
 
             try
             {
-                var order = await _dbContextOM.OrderEntity.FirstOrDefaultAsync(x => x.OrderNumber.Value == orderNumber);
+                var lastOccurrence = await _dbContextOM.OccurrenceEntity
+                    .Where(oc => oc.OrderNumber.Value == orderNumber) 
+                    .OrderByDescending(oc => oc.TimeOccurrence)
+                    .FirstOrDefaultAsync();
 
-                if (order is null)
+                if (lastOccurrence == null)
                 {
-                    Response.Message = $"Não foi encontrado nenhum pedido com o número informado: {orderNumber}";
-                    Response.Status = ResponseStatusEnum.NotFound;
-                    return Response;
-                }
-                var TimeLastOccurrence= order.Occurrences.FirstOrDefault();
-
-                if (order.Occurrences is null || !order.Occurrences.Any())
-                {
-                    Response.Status=ResponseStatusEnum.Success;
+                    Response.Status = ResponseStatusEnum.Success;
                     return Response;
                 }
 
-                TimeSpan TimeDifference = DateTime.Now - TimeLastOccurrence.TimeOccurrence;
+                TimeSpan diff = DateTime.Now - lastOccurrence.TimeOccurrence;
 
-                if (order.Occurrences.Any(x => x.TypeOccurrence.Equals(typeOccurrence)) && TimeDifference.TotalMinutes <= 10)
+                if (lastOccurrence.TypeOccurrence == typeOccurrence && diff.TotalMinutes <= 10)
                 {
                     Response.Status = ResponseStatusEnum.Error;
-                    Response.Message = "Não é possível a inserção de uma mesma ocorrencia em um período de 10 minutos.";
+                    Response.Message = "Não é possível a inserção de uma mesma ocorrência em um período de 10 minutos.";
+                    return Response;
                 }
 
                 Response.Status = ResponseStatusEnum.Success;
@@ -61,6 +57,7 @@ namespace OrderManager.Infrastructure.Repository.UseCase
                 Response.Status = ResponseStatusEnum.CriticalError;
                 Response.Message = "Erro ao verificar o tempo de ocorrência do pedido: " + ex.Message;
             }
+
             return Response;
         }
     }

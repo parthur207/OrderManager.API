@@ -22,77 +22,74 @@ namespace OrderManager.Infrastructure.Repository.Commands
 
         public async Task<SimpleResponseModel> CreateOccurrenceToOrderRepository(OccurrenceEntity occurrenceEntity)
         {
-            SimpleResponseModel Response = new SimpleResponseModel();
+            var Response = new SimpleResponseModel();
 
             try
             {
-   
-                var ResponseCheckTime= await _checkTimeOccurrenceOrderRespository.CheckTimeRepository(occurrenceEntity.OrderNumber, occurrenceEntity.TypeOccurrence);
+                var ResponseCheckTime = await _checkTimeOccurrenceOrderRespository
+                    .CheckTimeRepository(occurrenceEntity.OrderNumber.Value, occurrenceEntity.TypeOccurrence);
 
-                if (ResponseCheckTime.Status==ResponseStatusEnum.Error)
-                {
-                    Response.Status = ResponseCheckTime.Status;
-                    Response.Message = ResponseCheckTime.Message;
-                    return Response;
-                }
-                var Order = await _dbContextOM.OrderEntity.Include(x => x.Occurrences)
-                    .FirstOrDefaultAsync(x => x.OrderNumber.Value == occurrenceEntity.OrderNumber);
+                if (ResponseCheckTime.Status == ResponseStatusEnum.Error)
+                    return ResponseCheckTime;
 
+                int OrderNumberFK = occurrenceEntity.OrderNumber.Value;
 
-                if (Order is null)//verificando se o pedido com o numero informado existe
+                var order = await _dbContextOM.OrderEntity
+                    .Include(x => x.Occurrences)
+                    .FirstOrDefaultAsync(x => x.OrderNumber.Value == OrderNumberFK);
+
+                if (order == null)
                 {
                     Response.Status = ResponseStatusEnum.NotFound;
                     Response.Message = $"Não existe um pedido com o número informado: {occurrenceEntity.OrderNumber}";
                     return Response;
                 }
 
-                if (Order.IndDelivered is false)//Verificando se o pedido ja foi entregue 
-                {
-                    if (Order.Occurrences.Any())//se já possui ocorrências
-                    {
-                        if (occurrenceEntity.TypeOccurrence.Equals(ETypeOccurrenceEnum.EntregueComSucesso))
-                            Order.SetOrderStatusToDelivered();
-                        
-                        occurrenceEntity.SetOccurrenceToFinishing();//Modificando o status da ocorrência para finalizada
-                        _dbContextOM.OrderEntity.Update(Order);
-                        _dbContextOM.OccurrenceEntity.Update(occurrenceEntity);
-                        await _dbContextOM.OrderEntity.AddAsync(Order);
-                        await _dbContextOM.SaveChangesAsync();
-
-                        Response.Status = ResponseStatusEnum.Success;
-                        Response.Message = $"Uma nova ocorrência foi inclusa ao pedido!\n\nDetalhes:\nNumero do pedido: {occurrenceEntity.OrderNumber} | Tipo de ocorrência:{occurrenceEntity.TypeOccurrence.ToString()} " +
-                            $"| Horário de inserção da ocorrência: {occurrenceEntity.TimeOccurrence} | Finalizadora: {occurrenceEntity.IndFinishing}";
-                    }
-                    else
-                    {
-                        if (occurrenceEntity.TypeOccurrence.Equals(ETypeOccurrenceEnum.EntregueComSucesso))//A primeira ocorrencia de um pedido não pode ser de 'Entregue'
-                        {
-                            Response.Status = ResponseStatusEnum.Error;
-                            Response.Message = $"Erro. A primeira ocorrência do pedido não pode ser do tipo 'Entregue com sucesso'.";
-                        }
-                        else
-                        {
-                            Order.AddOccurrenceToOrder(occurrenceEntity);
-                            _dbContextOM.OrderEntity.Update(Order);
-                            await _dbContextOM.SaveChangesAsync();
-
-                            Response.Status = ResponseStatusEnum.Success;
-                            Response.Message = $"Uma nova ocorrência foi inclusa ao pedido!\n\nDetalhes\nNumero do pedido: {occurrenceEntity.OrderNumber} | Tipo de ocorrência:{occurrenceEntity.TypeOccurrence.ToString()} " +
-                                $"| Horário de inserção da ocorrência: {occurrenceEntity.TimeOccurrence} | Finalizadora: {occurrenceEntity.IndFinishing}";
-                        }
-                    }
-                }
-                else
+                if (order.IndDelivered)
                 {
                     Response.Status = ResponseStatusEnum.Error;
                     Response.Message = $"Erro. O pedido '{occurrenceEntity.OrderNumber}' já foi entregue, não é possível adicionar novas ocorrências.";
+                    return Response;
                 }
+
+                if (!order.Occurrences.Any())
+                {
+                    if (occurrenceEntity.TypeOccurrence == ETypeOccurrenceEnum.EntregueComSucesso)
+                    {
+                        Response.Status = ResponseStatusEnum.Error;
+                        Response.Message = $"Erro. A primeira ocorrência do pedido não pode ser do tipo 'Entregue com sucesso'.";
+                        return Response;
+                    }
+
+                    order.AddOccurrenceToOrder(occurrenceEntity);
+                    // Não precisa chamar Update(order) se order está trackeado
+                    await _dbContextOM.SaveChangesAsync();
+                }
+                else
+                {
+                    // já possui ocorrências
+                    if (occurrenceEntity.TypeOccurrence == ETypeOccurrenceEnum.EntregueComSucesso)
+                    {
+                        order.SetOrderStatusToDelivered();
+                    }
+
+                    occurrenceEntity.SetOccurrenceToFinishing();
+
+                    order.AddOccurrenceToOrder(occurrenceEntity);
+                    // order está trackeado, ao salvar, o EF vai inserir a ocorrência nova
+                    await _dbContextOM.SaveChangesAsync();
+                }
+
+                Response.Status = ResponseStatusEnum.Success;
+                Response.Message = $"Uma nova ocorrência foi inclusa ao pedido! Número: {occurrenceEntity.OrderNumber} | Tipo: {occurrenceEntity.TypeOccurrence} | Horário: {occurrenceEntity.TimeOccurrence}";
+
             }
             catch (Exception ex)
             {
                 Response.Status = ResponseStatusEnum.CriticalError;
-                Response.Message = "Ocorreu um erro inesperaod: " + ex.Message;
+                Response.Message = "Ocorreu um erro inesperado: " + ex.Message;
             }
+
             return Response;
         }
 

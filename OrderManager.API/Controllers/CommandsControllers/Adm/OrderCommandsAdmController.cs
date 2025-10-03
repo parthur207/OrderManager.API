@@ -49,8 +49,9 @@ namespace OrderManager.API.Controllers.CommandsControllers.Adm
             _logger.LogInformation("Uma nova ocorrência foi criada.");
             return Created();
         }
+
         [Authorize(Roles = nameof(RoleEnum.Adm))]
-        [HttpPut("delteOccurence")]
+        [HttpPut("deleteOccurence")]
         public async Task<IActionResult> DeleteOccurrenceById([FromBody] DeleteOccurrenceOrderModel Model)
         {
             var ResponseService = await _occurrenceOrderCommandsAdmInterface.DeleteOccurrenceByOrderNumber(Model);

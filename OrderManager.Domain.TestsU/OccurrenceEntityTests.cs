@@ -1,5 +1,6 @@
 using OrderManager.Domain.Entities;
 using OrderManager.Domain.Enuns;
+using OrderManager.Domain.ValueObjects;
 
 namespace OrderManager.Tests.Domain.Entities
 {
@@ -8,7 +9,7 @@ namespace OrderManager.Tests.Domain.Entities
         [Fact]
         public void Ctor_WithOrderNumberAndTypeOccurrence_SetsPropertiesCorrectly()
         {
-            int orderNumber = 123;
+            OrderNumberVO orderNumber = new OrderNumberVO(1234);
             ETypeOccurrenceEnum typeOccurrence = ETypeOccurrenceEnum.EmRotaDeEntrega;
 
             var occurrence = new OccurrenceEntity(orderNumber, typeOccurrence);
@@ -22,7 +23,7 @@ namespace OrderManager.Tests.Domain.Entities
         [Fact]
         public void Ctor_WithOrderNumberAndOccurrenceId_SetsPropertiesCorrectly()
         {
-            int orderNumber = 4564;
+            OrderNumberVO orderNumber = new OrderNumberVO(4564);
             int occurrenceId = 1;
 
             var occurrence = new OccurrenceEntity(orderNumber, occurrenceId);
@@ -34,7 +35,7 @@ namespace OrderManager.Tests.Domain.Entities
         [Fact]
         public void SetOccurrenceToFinishing_SetsIndFinishingTrueAndUpdatedAt()
         {
-            var occurrence = new OccurrenceEntity(1021, ETypeOccurrenceEnum.EntregueComSucesso);
+            var occurrence = new OccurrenceEntity(new OrderNumberVO(1235), ETypeOccurrenceEnum.EntregueComSucesso);
 
             // Act
             occurrence.SetOccurrenceToFinishing();

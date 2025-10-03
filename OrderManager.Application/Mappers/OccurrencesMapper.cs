@@ -64,7 +64,7 @@ namespace OrderManager.Application.Mappers
                 }
                 var OccurrenceEntityConverted = new OccurrenceEntity
                     (
-                       Model.OrderNumber,
+                       new OrderNumberVO(Model.OrderNumber),
                         Model.OccurrenceId
                     );
 
@@ -94,7 +94,7 @@ namespace OrderManager.Application.Mappers
 
                 var OccurrenceEntityConverted = new OccurrenceEntity
                     (
-                       OccurrencesModel.OrderNumber,
+                       new OrderNumberVO(OccurrencesModel.OrderNumber),
                         OccurrencesModel.ETypeOccurrence
                     );
 

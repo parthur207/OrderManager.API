@@ -14,7 +14,7 @@ namespace OrderManager.Domain.Entities
         {
             OrderNumber = orderNumber;
             UserId = userId;
-            Occurrences = [];
+            Occurrences = new List<OccurrenceEntity>();
             TimeOrder = DateTime.Now;
             IndDelivered = false;
         }
